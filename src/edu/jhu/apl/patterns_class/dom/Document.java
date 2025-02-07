@@ -12,10 +12,11 @@ public class Document extends Node implements edu.jhu.apl.patterns_class.dom.rep
 	// Implemented Document members.
 	//
 	public edu.jhu.apl.patterns_class.dom.replacement.Element createElement(String tagName) throws org.w3c.dom.DOMException
-	  {return new Element(tagName,this);}
-	public edu.jhu.apl.patterns_class.dom.replacement.Text createTextNode(String data) { return new Text(data, this); }
+	  {return (Element) new ElementFactory().createNode(tagName,this);}
+	public edu.jhu.apl.patterns_class.dom.replacement.Text createTextNode(String data)
+	{ return (Text) new TextFactory().createNode(data, this); }
 	public edu.jhu.apl.patterns_class.dom.replacement.Attr createAttribute(String name) throws org.w3c.dom.DOMException
-	  { return new Attr(name, this); }
+	  { return (Attr) new AttrFactory().createNode(name, this); }
 	public edu.jhu.apl.patterns_class.dom.replacement.Element getDocumentElement()
 	{
 		for (java.util.ListIterator i = ((NodeList )getChildNodes()).listIterator(0); i.hasNext();)
@@ -55,6 +56,21 @@ public class Document extends Node implements edu.jhu.apl.patterns_class.dom.rep
 	  { return null; }
 	public edu.jhu.apl.patterns_class.dom.replacement.Element getElementById(String elementId) { return null; }
 	public edu.jhu.apl.patterns_class.dom.replacement.Node cloneNode(boolean deep) { return null; }
+
+	@Override
+	public int serializePretty(java.io.BufferedWriter writer, int indentationLevel) throws java.io.IOException {
+		writer.write("<? xml version=\"1.0\" encoding=\"UTF-8\"?>");
+		writer.write("\n");
+		indentationLevel = getDocumentElement().serializePretty(writer, indentationLevel);
+		return indentationLevel;
+	}
+
+	@Override
+	public void serializeMinimal(java.io.BufferedWriter writer) throws java.io.IOException {
+		writer.write("<? xml version=\"1.0\" encoding=\"UTF-8\"?>");
+		getDocumentElement().serializeMinimal(writer);
+	}
+
 	public edu.jhu.apl.patterns_class.dom.replacement.Node
 	  renameNode(edu.jhu.apl.patterns_class.dom.replacement.Node n, String namespaceURI, String qualifiedName) { return null; }
 	public void normalizeDocument() {}

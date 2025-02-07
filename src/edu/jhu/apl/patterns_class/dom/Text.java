@@ -108,4 +108,17 @@ public class Text extends Node implements edu.jhu.apl.patterns_class.dom.replace
 	public edu.jhu.apl.patterns_class.dom.replacement.Text replaceWholeText(String content) { return null; }
 	public String getWholeText() { return null; }
 	public boolean isElementContentWhitespace() { return false; }
+
+	@Override
+	public int serializePretty(java.io.BufferedWriter writer, int indentationLevel) throws java.io.IOException {
+		prettyIndentation(writer, indentationLevel);
+		writer.write(getData());
+		writer.write("\n");
+		return indentationLevel;
+	}
+
+	@Override
+	public void serializeMinimal(java.io.BufferedWriter writer) throws java.io.IOException {
+		writer.write(getData());
+	}
 }

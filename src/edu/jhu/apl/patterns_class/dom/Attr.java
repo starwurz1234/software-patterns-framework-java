@@ -43,4 +43,17 @@ public class Attr extends Node implements edu.jhu.apl.patterns_class.dom.replace
 	public boolean getSpecified()	{ return true; }
 	public boolean isId()		{ return false; }
 	public org.w3c.dom.TypeInfo getSchemaTypeInfo() { return null; }
+
+	@Override
+	public int serializePretty(java.io.BufferedWriter writer, int indentationLevel) throws java.io.IOException {
+		writer.write(" " + getName() + "=\"" +
+				getValue() + "\"");
+		return indentationLevel;
+	}
+
+	@Override
+	public void serializeMinimal(java.io.BufferedWriter writer) throws java.io.IOException {
+		writer.write(" " + getName() + "=\"" +
+				getValue() + "\"");
+	}
 }

@@ -1,6 +1,6 @@
 package edu.jhu.apl.patterns_class.dom;
 
-public class Node implements edu.jhu.apl.patterns_class.dom.replacement.Node
+public abstract class Node implements edu.jhu.apl.patterns_class.dom.replacement.Node
 {
 	private String		name		= null;
 	private String		value		= null;
@@ -175,4 +175,16 @@ public class Node implements edu.jhu.apl.patterns_class.dom.replacement.Node
 			return null;
 		}
 	}
+
+	protected void prettyIndentation(java.io.BufferedWriter writer, int indentationLevel) throws java.io.IOException
+	{
+		for (int i = 0; i < indentationLevel; i++)
+			writer.write("\t");
+	}
+
+	@Override
+	public abstract int serializePretty(java.io.BufferedWriter writer, int indentationLevel)  throws java.io.IOException;
+
+	@Override
+	public abstract void serializeMinimal(java.io.BufferedWriter writer) throws java.io.IOException;
 }
