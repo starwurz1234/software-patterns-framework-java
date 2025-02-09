@@ -1,5 +1,7 @@
 package edu.jhu.apl.patterns_class;
 
+import edu.jhu.apl.patterns_class.dom.*;
+
 public class XMLValidator
 {
 	private java.util.Vector<ValidChildren>	schema	= new java.util.Vector<ValidChildren>();
@@ -104,24 +106,38 @@ public class XMLValidator
 		edu.jhu.apl.patterns_class.dom.replacement.Element	child		= null;
 		edu.jhu.apl.patterns_class.dom.replacement.Attr		attr		= null;
 
-		if (xmlValidator.canRootElement("document"))
-		{
-			root	= document.createElement("document");
-			document.appendChild(root);
-		}
-		else
-		{
+		DocumentValidation wrappedDocument = new ConcreteDocumentValidator(document);
+		root	= wrappedDocument.createElement("document");
+		ElementValidation wrappedElement = new ConcreteElementValidator(root, root.getTagName(), root.getOwnerDocument());
+
+		if (wrappedDocument.appendChild(wrappedElement) == null) {
 			System.out.println("Attempted invalid schema operation.");
 			System.exit(0);
 		}
 
+		child	= wrappedDocument.createElement("element");
+		ElementValidation wrappedChild = new ConcreteElementValidator(child, child.getTagName(), child.getOwnerDocument());
+
+		attr	= wrappedDocument.createAttribute("attribute");
+		AttrValidation wrappedAttr = new AttrValidation(attr, "attribute", attr.getOwnerDocument());
+
+/*		if (xmlValidator.canRootElement("document"))
+		{
+
+			document.appendChild(root);
+		}
+		else
+		{
+
+		}*/
+
 		if (xmlValidator.canAddElement(root, "element"))
 		{
-			child	= document.createElement("element");
+
 
 			if (xmlValidator.canAddAttribute(child, "attribute"))
 			{
-				attr	= document.createAttribute("attribute");
+
 				attr.setValue("attribute value");
 				child.setAttributeNode(attr);
 			}
