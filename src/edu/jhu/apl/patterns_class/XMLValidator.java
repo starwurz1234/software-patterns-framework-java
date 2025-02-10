@@ -1,5 +1,7 @@
 package edu.jhu.apl.patterns_class;
 
+import edu.jhu.apl.patterns_class.dom.SerializePrettyStrategy;
+
 public class XMLValidator
 {
 	private java.util.Vector<ValidChildren>	schema	= new java.util.Vector<ValidChildren>();
@@ -206,7 +208,7 @@ public class XMLValidator
 		try
 		{
 			XMLSerializer	xmlSerializer	= new XMLSerializer(args[0]);
-			xmlSerializer.serializePretty(document);
+			xmlSerializer.serialize(new SerializePrettyStrategy(), document);
 			xmlSerializer.close();
 		}
 		catch (java.io.IOException e)

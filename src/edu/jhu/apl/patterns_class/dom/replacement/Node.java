@@ -1,6 +1,8 @@
 package edu.jhu.apl.patterns_class.dom.replacement;
 
-public interface Node extends edu.jhu.apl.patterns_class.dom.interfaces.SerializeStrategy
+import edu.jhu.apl.patterns_class.dom.interfaces.Serialization;
+
+public interface Node extends Serialization
 {
 	//
 	// Implemented Interface Members
