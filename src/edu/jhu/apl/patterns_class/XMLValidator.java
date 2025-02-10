@@ -1,6 +1,6 @@
 package edu.jhu.apl.patterns_class;
 
-import edu.jhu.apl.patterns_class.dom.SerializePrettyStrategy;
+import edu.jhu.apl.patterns_class.dom.WhitespacePrettyStrategy;
 
 public class XMLValidator
 {
@@ -208,7 +208,7 @@ public class XMLValidator
 		try
 		{
 			XMLSerializer	xmlSerializer	= new XMLSerializer(args[0]);
-			xmlSerializer.serialize(new SerializePrettyStrategy(), document);
+			xmlSerializer.serialize(new WhitespacePrettyStrategy(), document);
 			xmlSerializer.close();
 		}
 		catch (java.io.IOException e)

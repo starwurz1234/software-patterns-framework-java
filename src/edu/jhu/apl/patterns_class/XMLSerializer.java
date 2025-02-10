@@ -1,8 +1,8 @@
 package edu.jhu.apl.patterns_class;
 
-import edu.jhu.apl.patterns_class.dom.SerializeMinimalStrategy;
-import edu.jhu.apl.patterns_class.dom.SerializePrettyStrategy;
-import edu.jhu.apl.patterns_class.dom.interfaces.SerializationStrategy;
+import edu.jhu.apl.patterns_class.dom.WhitespaceMinimalStrategy;
+import edu.jhu.apl.patterns_class.dom.WhitespacePrettyStrategy;
+import edu.jhu.apl.patterns_class.dom.interfaces.WhitespaceStrategy;
 
 public class XMLSerializer
 {
@@ -27,7 +27,7 @@ public class XMLSerializer
 			writer.write("\t");
 	}
 
-	public void serialize(SerializationStrategy strategy, edu.jhu.apl.patterns_class.dom.replacement.Node node) throws java.io.IOException{
+	public void serialize(WhitespaceStrategy strategy, edu.jhu.apl.patterns_class.dom.replacement.Node node) throws java.io.IOException{
 		strategy.serialize(writer, node);
 	}
 
@@ -82,10 +82,10 @@ public class XMLSerializer
 		try
 		{
 			XMLSerializer	xmlSerializer	= new XMLSerializer(args[0]);
-			xmlSerializer.serialize(new SerializePrettyStrategy(), document);
+			xmlSerializer.serialize(new WhitespacePrettyStrategy(), document);
 			xmlSerializer.close();
 			xmlSerializer	= new XMLSerializer(args[1]);
-			xmlSerializer.serialize(new SerializeMinimalStrategy(), document);
+			xmlSerializer.serialize(new WhitespaceMinimalStrategy(), document);
 			xmlSerializer.close();
 		}
 		catch (java.io.IOException e)
