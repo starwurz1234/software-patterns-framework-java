@@ -2,6 +2,9 @@ package edu.jhu.apl.patterns_class;
 
 import edu.jhu.apl.patterns_class.dom.WhitespacePrettyStrategy;
 
+import edu.jhu.apl.patterns_class.dom.DocumentValidator;
+import edu.jhu.apl.patterns_class.dom.replacement.Document;
+
 public class XMLValidator
 {
 	private java.util.Vector<ValidChildren>	schema	= new java.util.Vector<ValidChildren>();
@@ -90,7 +93,7 @@ public class XMLValidator
 		// element contains attributes:  attribute, attribute2
 		//
 		XMLValidator	xmlValidator	= new XMLValidator();
-		ValidChildren	schemaElement	= xmlValidator.addSchemaElement(null);
+/*		ValidChildren	schemaElement	= xmlValidator.addSchemaElement(null);
 		schemaElement.addValidChild("document", false);
 		schemaElement	= xmlValidator.addSchemaElement("document");
 		schemaElement.addValidChild("element", false);
@@ -98,10 +101,11 @@ public class XMLValidator
 		schemaElement.addValidChild("element", false);
 		schemaElement.addValidChild("attribute", true);
 		schemaElement.addValidChild("attribute2", true);
-		schemaElement.setCanHaveText(true);
+		schemaElement.setCanHaveText(true);*/
 
 		edu.jhu.apl.patterns_class.dom.replacement.Document	document	=
 		  new edu.jhu.apl.patterns_class.dom.Document();
+		Document wrappedDocument = (Document)new DocumentValidator(document);
 		edu.jhu.apl.patterns_class.dom.replacement.Element	root		= null;
 		edu.jhu.apl.patterns_class.dom.replacement.Element	child		= null;
 		edu.jhu.apl.patterns_class.dom.replacement.Attr		attr		= null;
