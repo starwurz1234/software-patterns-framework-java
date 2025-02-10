@@ -1,0 +1,7 @@
+<? xml version="1.0" encoding="UTF-8"?>
+<document>
+	<element attribute="attribute value" />
+	<element/>
+	<element attribute="attribute value" attribute2="attribute2 value" />
+	<element/>
+</document>
