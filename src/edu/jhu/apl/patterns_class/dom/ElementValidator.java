@@ -6,7 +6,7 @@ import org.w3c.dom.DOMException;
 
 public class ElementValidator extends Validator{
     public ElementValidator(Node node) {
-        super(node);
+        super(node, node.getNodeName(), node.getNodeType());
     }
 
     @Override

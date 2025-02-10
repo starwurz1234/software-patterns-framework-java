@@ -10,11 +10,12 @@ import org.w3c.dom.UserDataHandler;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-public class Validator implements edu.jhu.apl.patterns_class.dom.replacement.Node{
+public class Validator extends edu.jhu.apl.patterns_class.dom.Node{
 
     edu.jhu.apl.patterns_class.dom.replacement.Node node;
 
-    public Validator(edu.jhu.apl.patterns_class.dom.replacement.Node node) {
+    public Validator(edu.jhu.apl.patterns_class.dom.replacement.Node node, String name, short type) {
+        super(name, type);
         this.node = node;
     }
 

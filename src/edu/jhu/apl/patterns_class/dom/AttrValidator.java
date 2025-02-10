@@ -5,7 +5,7 @@ import org.w3c.dom.DOMException;
 
 public class AttrValidator extends Validator{
     public AttrValidator(Node node) {
-        super(node);
+        super(node, node.getNodeName(), node.getNodeType());
     }
 
     @Override
