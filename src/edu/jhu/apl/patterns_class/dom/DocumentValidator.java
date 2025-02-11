@@ -7,6 +7,7 @@ import edu.jhu.apl.patterns_class.dom.replacement.NodeList;
 import edu.jhu.apl.patterns_class.dom.replacement.Text;
 import org.w3c.dom.*;
 
+//Concrete Validator decorator for Document objects
 public class DocumentValidator extends Validator<edu.jhu.apl.patterns_class.dom.replacement.Document> implements Document {
     public DocumentValidator(Document node) {
         super(node, node.getNodeName(), node.getNodeType());

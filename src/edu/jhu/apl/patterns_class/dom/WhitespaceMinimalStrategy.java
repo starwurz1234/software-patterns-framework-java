@@ -7,6 +7,7 @@ import edu.jhu.apl.patterns_class.dom.replacement.Node;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+//Concrete strategy for minimal whitespace
 public class WhitespaceMinimalStrategy implements WhitespaceStrategy {
     @Override
     public void serialize(BufferedWriter writer, Serialization node) throws IOException {

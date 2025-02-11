@@ -5,6 +5,7 @@ import edu.jhu.apl.patterns_class.dom.replacement.Node;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.TypeInfo;
 
+//Concrete Validator decorator for Attr objects
 public class AttrValidator extends Validator<edu.jhu.apl.patterns_class.dom.replacement.Attr> implements edu.jhu.apl.patterns_class.dom.replacement.Attr{
     public AttrValidator(edu.jhu.apl.patterns_class.dom.replacement.Attr node) {
         super(node, node.getNodeName(), node.getNodeType());

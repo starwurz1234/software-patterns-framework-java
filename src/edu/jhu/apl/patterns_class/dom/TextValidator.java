@@ -4,6 +4,7 @@ import edu.jhu.apl.patterns_class.dom.replacement.Node;
 import edu.jhu.apl.patterns_class.dom.replacement.Text;
 import org.w3c.dom.DOMException;
 
+//Concrete Validator decorator for Text objects
 public class TextValidator extends Validator<edu.jhu.apl.patterns_class.dom.replacement.Text> implements edu.jhu.apl.patterns_class.dom.replacement.Text{
     public TextValidator(edu.jhu.apl.patterns_class.dom.replacement.Text node) {
         super(node, node.getNodeName(), node.getNodeType());

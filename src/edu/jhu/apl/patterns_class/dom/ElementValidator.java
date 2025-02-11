@@ -7,6 +7,7 @@ import edu.jhu.apl.patterns_class.dom.replacement.NodeList;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.TypeInfo;
 
+//Concrete Validator decorator for Element objects
 public class ElementValidator extends Validator<edu.jhu.apl.patterns_class.dom.replacement.Element> implements edu.jhu.apl.patterns_class.dom.replacement.Element {
     public ElementValidator(edu.jhu.apl.patterns_class.dom.replacement.Element node) {
         super(node, node.getNodeName(), node.getNodeType());

@@ -10,6 +10,7 @@ import org.w3c.dom.UserDataHandler;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+//Abstract validation decorator for Nodes
 public abstract class Validator<T extends edu.jhu.apl.patterns_class.dom.replacement.Node> extends edu.jhu.apl.patterns_class.dom.Node{
 
     T node;
