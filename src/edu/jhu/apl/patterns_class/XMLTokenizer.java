@@ -3,6 +3,7 @@ package edu.jhu.apl.patterns_class;
 import edu.jhu.apl.patterns_class.dom.DOMBuilder;
 import edu.jhu.apl.patterns_class.dom.Director;
 import edu.jhu.apl.patterns_class.dom.interfaces.Builder;
+import edu.jhu.apl.patterns_class.dom.replacement.Document;
 
 public class XMLTokenizer
 {
@@ -285,9 +286,11 @@ public class XMLTokenizer
 			try
 			{
 				tokenizer	= new XMLTokenizer(args[i]);
-				Builder builder = new DOMBuilder();
+				DOMBuilder builder = new DOMBuilder();
 				Director director = new Director(builder);
 				director.construct(args[i]);
+				Document document = builder.getDocument();
+				System.out.println();
 			}
 			catch (java.io.FileNotFoundException e)
 			{

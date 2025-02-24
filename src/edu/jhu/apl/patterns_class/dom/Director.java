@@ -40,5 +40,6 @@ public class Director {
             this.builder.addToken(token);
 
         } while (token.getTokenType() != XMLTokenizer.XMLToken.NULL);
+
     }
 }
