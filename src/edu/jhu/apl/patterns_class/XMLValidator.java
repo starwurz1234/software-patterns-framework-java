@@ -40,7 +40,7 @@ public class XMLValidator
 		// element contains attributes:  attribute, attribute2
 		//
 
-		edu.jhu.apl.patterns_class.dom.replacement.Document	document	=
+/*		edu.jhu.apl.patterns_class.dom.replacement.Document	document	=
 		  new DocumentValidator (new edu.jhu.apl.patterns_class.dom.Document());
 		edu.jhu.apl.patterns_class.dom.replacement.Element	root		= null;
 		edu.jhu.apl.patterns_class.dom.replacement.Element	child		= null;
@@ -100,13 +100,13 @@ public class XMLValidator
 		try
 		{
 			XMLSerializer	xmlSerializer	= new XMLSerializer(args[0]);
-			xmlSerializer.serialize(new WhitespacePrettyStrategy(), document);
+			//xmlSerializer.serialize(new WhitespacePrettyStrategy(), document);
 			xmlSerializer.close();
 		}
 		catch (java.io.IOException e)
 		{
 			System.out.println("Error writing file.");
 			e.printStackTrace();
-		}
+		}*/
 	}
 }

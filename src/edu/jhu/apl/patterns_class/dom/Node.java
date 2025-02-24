@@ -182,9 +182,7 @@ public abstract class Node implements edu.jhu.apl.patterns_class.dom.replacement
 			writer.write("\t");
 	}
 
-	@Override
 	public abstract int serializePretty(java.io.BufferedWriter writer, int indentationLevel)  throws java.io.IOException;
 
-	@Override
 	public abstract void serializeMinimal(java.io.BufferedWriter writer) throws java.io.IOException;
 }

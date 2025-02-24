@@ -61,14 +61,14 @@ public class Document extends Node implements edu.jhu.apl.patterns_class.dom.rep
 	public int serializePretty(java.io.BufferedWriter writer, int indentationLevel) throws java.io.IOException {
 		writer.write("<? xml version=\"1.0\" encoding=\"UTF-8\"?>");
 		writer.write("\n");
-		indentationLevel = getDocumentElement().serializePretty(writer, indentationLevel);
+		indentationLevel = ((Node)getDocumentElement()).serializePretty(writer, indentationLevel);
 		return indentationLevel;
 	}
 
 	@Override
 	public void serializeMinimal(java.io.BufferedWriter writer) throws java.io.IOException {
 		writer.write("<? xml version=\"1.0\" encoding=\"UTF-8\"?>");
-		getDocumentElement().serializeMinimal(writer);
+		((Node)getDocumentElement()).serializeMinimal(writer);
 	}
 
 	public edu.jhu.apl.patterns_class.dom.replacement.Node

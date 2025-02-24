@@ -2,7 +2,7 @@ package edu.jhu.apl.patterns_class.dom.replacement;
 
 import edu.jhu.apl.patterns_class.dom.interfaces.Serialization;
 
-public interface Node extends Serialization
+public interface Node
 {
 	//
 	// Implemented Interface Members

@@ -9,7 +9,7 @@ import java.io.IOException;
 //Concrete strategy for pretty whitespace
 public class WhitespacePrettyStrategy implements WhitespaceStrategy {
     @Override
-    public void serialize(BufferedWriter writer, Serialization node) throws IOException {
+    public void serialize(BufferedWriter writer, Node node) throws IOException {
         node.serializePretty(writer, 0);
     }
 }

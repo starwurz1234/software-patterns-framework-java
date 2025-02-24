@@ -1,5 +1,9 @@
 package edu.jhu.apl.patterns_class;
 
+import edu.jhu.apl.patterns_class.dom.DOMBuilder;
+import edu.jhu.apl.patterns_class.dom.Director;
+import edu.jhu.apl.patterns_class.dom.interfaces.Builder;
+
 public class XMLTokenizer
 {
 	private java.io.BufferedReader	reader		= null;
@@ -281,6 +285,9 @@ public class XMLTokenizer
 			try
 			{
 				tokenizer	= new XMLTokenizer(args[i]);
+				Builder builder = new DOMBuilder();
+				Director director = new Director(builder);
+				director.construct(args[i]);
 			}
 			catch (java.io.FileNotFoundException e)
 			{

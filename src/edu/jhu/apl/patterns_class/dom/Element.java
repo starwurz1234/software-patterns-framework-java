@@ -195,7 +195,7 @@ public class Element extends Node implements edu.jhu.apl.patterns_class.dom.repl
 			edu.jhu.apl.patterns_class.dom.replacement.Node	attr =
 					(edu.jhu.apl.patterns_class.dom.replacement.Node )i.next();
 
-			indentationLevel = attr.serializePretty(writer, indentationLevel);
+			indentationLevel = ((Node)attr).serializePretty(writer, indentationLevel);
 			attrCount++;
 		}
 
@@ -222,7 +222,7 @@ public class Element extends Node implements edu.jhu.apl.patterns_class.dom.repl
 
 				if (child instanceof edu.jhu.apl.patterns_class.dom.replacement.Element ||
 						child instanceof edu.jhu.apl.patterns_class.dom.replacement.Text)
-					indentationLevel = child.serializePretty(writer, indentationLevel);
+					indentationLevel = ((Node)child).serializePretty(writer, indentationLevel);
 			}
 
 			indentationLevel--;
@@ -244,7 +244,7 @@ public class Element extends Node implements edu.jhu.apl.patterns_class.dom.repl
 			edu.jhu.apl.patterns_class.dom.replacement.Node	attr =
 					(edu.jhu.apl.patterns_class.dom.replacement.Node )i.next();
 
-			attr.serializeMinimal(writer);
+			((Node)attr).serializeMinimal(writer);
 		}
 
 		if (!((edu.jhu.apl.patterns_class.dom.NodeList ) getChildNodes()).listIterator(0).hasNext())
@@ -262,7 +262,7 @@ public class Element extends Node implements edu.jhu.apl.patterns_class.dom.repl
 
 				if (child instanceof edu.jhu.apl.patterns_class.dom.replacement.Element ||
 						child instanceof edu.jhu.apl.patterns_class.dom.replacement.Text)
-					child.serializeMinimal(writer);
+					((Node)child).serializeMinimal(writer);
 			}
 
 			writer.write("</" + getTagName() + ">");
