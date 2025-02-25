@@ -12,11 +12,11 @@ public class Document extends Node implements edu.jhu.apl.patterns_class.dom.rep
 	// Implemented Document members.
 	//
 	public edu.jhu.apl.patterns_class.dom.replacement.Element createElement(String tagName) throws org.w3c.dom.DOMException
-	  {return (Element) new ElementFactory().createNode(tagName,this);}
+	  {return new Element(tagName,this);}
 	public edu.jhu.apl.patterns_class.dom.replacement.Text createTextNode(String data)
-	{ return (Text) new TextFactory().createNode(data, this); }
+	{ return new Text(data, this); }
 	public edu.jhu.apl.patterns_class.dom.replacement.Attr createAttribute(String name) throws org.w3c.dom.DOMException
-	  { return (Attr) new AttrFactory().createNode(name, this); }
+	  { return new Attr(name, this); }
 	public edu.jhu.apl.patterns_class.dom.replacement.Element getDocumentElement()
 	{
 		for (java.util.ListIterator i = ((NodeList )getChildNodes()).listIterator(0); i.hasNext();)

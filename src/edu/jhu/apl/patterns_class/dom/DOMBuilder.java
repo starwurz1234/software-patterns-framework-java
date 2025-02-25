@@ -10,16 +10,10 @@ import static edu.jhu.apl.patterns_class.XMLTokenizer.XMLToken.*;
 public class DOMBuilder implements Builder {
 
     edu.jhu.apl.patterns_class.dom.replacement.Document document;
-    AbstractNodeFactory attrFactory;
-    AbstractNodeFactory elementFactory;
-    AbstractNodeFactory textFactory;
     Stack<Node> workingNodes;
 
     public DOMBuilder() {
         this.document = new Document();
-        this.attrFactory = new AttrFactory();
-        this.elementFactory = new ElementFactory();
-        this.textFactory = new TextFactory();
         this.workingNodes = new Stack<>();
     }
 
@@ -55,13 +49,13 @@ public class DOMBuilder implements Builder {
                 break;
             case ELEMENT:
                 if (token.getToken().equals("element")) {
-                    Element newElement = (Element) elementFactory.createNode("element", (Document)this.document);
+                    Element newElement = (Element) document.createElement("element");
                     workingNodes.push(newElement);
                 }
                 break;
             case ATTRIBUTE:
                 String attrName = token.getToken().split("=")[0];
-                Attr attr = (Attr)attrFactory.createNode(attrName, (Document)this.document);
+                Attr attr = (Attr)document.createAttribute(attrName);
                 workingNodes.push(attr);
                 break;
             case NULL_TAG_END:
@@ -74,7 +68,7 @@ public class DOMBuilder implements Builder {
             case TAG_CLOSE_START:
                 break;
             case VALUE:
-                Text text = (Text)textFactory.createNode(token.getToken(), (Document)this.document);
+                Text text = (Text)document.createTextNode(token.getToken());
                 workingNodes.peek().appendChild(text);
                 break;
             case TAG_END:
