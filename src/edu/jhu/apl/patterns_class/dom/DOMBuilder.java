@@ -2,6 +2,7 @@ package edu.jhu.apl.patterns_class.dom;
 
 import edu.jhu.apl.patterns_class.XMLTokenizer;
 import edu.jhu.apl.patterns_class.dom.interfaces.Builder;
+import edu.jhu.apl.patterns_class.dom.replacement.Node;
 
 import java.util.Stack;
 
@@ -10,11 +11,11 @@ import static edu.jhu.apl.patterns_class.XMLTokenizer.XMLToken.*;
 public class DOMBuilder implements Builder {
 
     edu.jhu.apl.patterns_class.dom.replacement.Document document;
-    Stack<Node> workingNodes;
+    Stack<edu.jhu.apl.patterns_class.dom.replacement.Node> workingNodes;
     private static DOMBuilder instance;
 
     private DOMBuilder() {
-        this.document = new Document();
+        this.document = new ProxyElementFactory();
         this.workingNodes = new Stack<>();
     }
 
@@ -47,7 +48,7 @@ public class DOMBuilder implements Builder {
                 workingAttr.setValue(token.getToken());
                 if (workingNodes.empty())
                     return;
-                Node workingNode = workingNodes.peek();
+                edu.jhu.apl.patterns_class.dom.replacement.Node workingNode = workingNodes.peek();
                 if (workingNode instanceof Element) {
                     ((Element)workingNode).setAttributeNode(workingAttr);
                 }
@@ -58,7 +59,7 @@ public class DOMBuilder implements Builder {
                 break;
             case ELEMENT:
                 if (token.getToken().equals("element")) {
-                    Element newElement = (Element) document.createElement("element");
+                    edu.jhu.apl.patterns_class.dom.replacement.Element newElement = document.createElement("element");
                     workingNodes.push(newElement);
                 }
                 break;

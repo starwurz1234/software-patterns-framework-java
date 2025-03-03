@@ -32,6 +32,7 @@ public interface Node
 	public boolean isSupported(String feature, String version);
 	public String getNamespaceURI();
 	public String getPrefix();
+	public void setParent(Node parent);
 	public void setPrefix(String prefix) throws org.w3c.dom.DOMException;
 	public Node cloneNode(boolean deep);
 	public boolean hasAttributes();

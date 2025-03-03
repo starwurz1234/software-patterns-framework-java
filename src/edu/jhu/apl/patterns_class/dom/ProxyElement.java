@@ -9,17 +9,27 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.TypeInfo;
 import org.w3c.dom.UserDataHandler;
 
-public class ProxyElement implements edu.jhu.apl.patterns_class.dom.replacement.Element{
+import java.io.BufferedWriter;
+import java.io.IOException;
+
+public class ProxyElement extends edu.jhu.apl.patterns_class.dom.Node implements edu.jhu.apl.patterns_class.dom.replacement.Element{
 
     private Element realElement;
     private boolean instatiated;
+    private String filename;
 
     public ProxyElement(String tagName, edu.jhu.apl.patterns_class.dom.Document document) {
+        super("", (short)0);
         this.realElement = new Element(tagName, document);
     }
 
     private void instantiate() {
+        
         instatiated = true;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 
     @Override
@@ -294,6 +304,22 @@ public class ProxyElement implements edu.jhu.apl.patterns_class.dom.replacement.
             instantiate();
         }
         return realElement.getBaseURI();
+    }
+
+    @Override
+    public int serializePretty(BufferedWriter writer, int indentationLevel) throws IOException {
+        if (!instatiated) {
+            instantiate();
+        }
+        return realElement.serializePretty(writer, indentationLevel);
+    }
+
+    @Override
+    public void serializeMinimal(BufferedWriter writer) throws IOException {
+        if (!instatiated) {
+            instantiate();
+        }
+        realElement.serializeMinimal(writer);
     }
 
     @Override

@@ -5,7 +5,7 @@ public abstract class Node implements edu.jhu.apl.patterns_class.dom.replacement
 	private String		name		= null;
 	private String		value		= null;
 	private short		nodeType	= -1;
-	private Node		parent		= null;
+	private edu.jhu.apl.patterns_class.dom.replacement.Node		parent		= null;
 	private NodeList	nodes		= null;
 	protected Document	document	= null;
 
@@ -16,7 +16,8 @@ public abstract class Node implements edu.jhu.apl.patterns_class.dom.replacement
 		nodes		= new NodeList();
 	}
 
-	void setParent(Node parent)							{ this.parent = parent; }
+	@Override
+	public void setParent(edu.jhu.apl.patterns_class.dom.replacement.Node parent)							{ this.parent = parent; }
 
 	//
 	// Implemented Interface Members
