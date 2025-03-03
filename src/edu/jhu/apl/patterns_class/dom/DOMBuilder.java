@@ -11,10 +11,19 @@ public class DOMBuilder implements Builder {
 
     edu.jhu.apl.patterns_class.dom.replacement.Document document;
     Stack<Node> workingNodes;
+    private static DOMBuilder instance;
 
-    public DOMBuilder() {
+    private DOMBuilder() {
         this.document = new Document();
         this.workingNodes = new Stack<>();
+    }
+
+    public static DOMBuilder getInstance() {
+        if (instance == null) {
+            instance = new DOMBuilder();
+        }
+
+        return instance;
     }
 
     public edu.jhu.apl.patterns_class.dom.replacement.Document getDocument() {

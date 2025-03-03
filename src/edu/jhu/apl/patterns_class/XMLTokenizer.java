@@ -286,10 +286,9 @@ public class XMLTokenizer
 			try
 			{
 				tokenizer	= new XMLTokenizer(args[i]);
-				DOMBuilder builder = new DOMBuilder();
-				Director director = new Director(builder);
+				Director director = new Director(DOMBuilder.getInstance());
 				director.construct(args[i]);
-				Document document = builder.getDocument();
+				Document document = DOMBuilder.getInstance().getDocument();
 				System.out.println();
 			}
 			catch (java.io.FileNotFoundException e)
