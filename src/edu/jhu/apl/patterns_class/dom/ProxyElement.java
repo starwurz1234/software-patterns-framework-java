@@ -1,5 +1,6 @@
 package edu.jhu.apl.patterns_class.dom;
 
+import edu.jhu.apl.patterns_class.XMLTokenizer;
 import edu.jhu.apl.patterns_class.dom.replacement.Attr;
 import edu.jhu.apl.patterns_class.dom.replacement.Document;
 import edu.jhu.apl.patterns_class.dom.replacement.NamedNodeMap;
@@ -10,6 +11,7 @@ import org.w3c.dom.TypeInfo;
 import org.w3c.dom.UserDataHandler;
 
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class ProxyElement extends edu.jhu.apl.patterns_class.dom.Node implements edu.jhu.apl.patterns_class.dom.replacement.Element{
@@ -17,6 +19,7 @@ public class ProxyElement extends edu.jhu.apl.patterns_class.dom.Node implements
     private Element realElement;
     private boolean instatiated;
     private String filename;
+    private String line;
 
     public ProxyElement(String tagName, edu.jhu.apl.patterns_class.dom.Document document) {
         super("", (short)0);
@@ -24,7 +27,13 @@ public class ProxyElement extends edu.jhu.apl.patterns_class.dom.Node implements
     }
 
     private void instantiate() {
-        
+/*        try {
+            XMLTokenizer tokenizer = new XMLTokenizer(filename);
+
+        } catch (FileNotFoundException e) {
+            System.out.println("Error reading file");
+        }*/
+
         instatiated = true;
     }
 

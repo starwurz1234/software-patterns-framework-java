@@ -31,6 +31,14 @@ public class DOMBuilder implements Builder {
         return this.document;
     }
 
+    public void setWorkingNodes(Stack<Node> nodes) {
+        this.workingNodes = nodes;
+    }
+
+    public void setDocument(edu.jhu.apl.patterns_class.dom.replacement.Document document) {
+        this.document = document;
+    }
+
     @Override
     public void addToken(XMLTokenizer.XMLToken token) {
 
