@@ -27,13 +27,19 @@ public class ProxyElement extends edu.jhu.apl.patterns_class.dom.Node implements
     }
 
     private void instantiate() {
-/*        try {
+
+        /*
+        Read this element from the file when instantiate gets called.
+        Only instantiate when values need to be read from this element.
+
+        try {
             XMLTokenizer tokenizer = new XMLTokenizer(filename);
 
         } catch (FileNotFoundException e) {
             System.out.println("Error reading file");
-        }*/
-
+        }
+         */
+        
         instatiated = true;
     }
 
