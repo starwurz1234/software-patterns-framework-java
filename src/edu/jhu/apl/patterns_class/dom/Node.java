@@ -160,21 +160,13 @@ public abstract class Node implements edu.jhu.apl.patterns_class.dom.replacement
 	//
 	// Class Members
 	//
-	private Node getSibling(int direction)
+	private Node getSibling(int direction) throws IndexOutOfBoundsException
 	{
 		if (parent == null)
 			return null;
 
 		java.util.LinkedList	siblings	= (java.util.LinkedList )parent.getChildNodes();
-
-		try
-		{
-			return (Node )siblings.get(siblings.indexOf(this) + direction);
-		}
-		catch (java.lang.IndexOutOfBoundsException e)
-		{
-			return null;
-		}
+		return (Node )siblings.get(siblings.indexOf(this) + direction);
 	}
 
 	protected void prettyIndentation(java.io.BufferedWriter writer, int indentationLevel) throws java.io.IOException

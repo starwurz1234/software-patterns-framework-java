@@ -5,6 +5,8 @@ import edu.jhu.apl.patterns_class.dom.Director;
 import edu.jhu.apl.patterns_class.dom.interfaces.Builder;
 import edu.jhu.apl.patterns_class.dom.replacement.Document;
 
+import java.io.IOException;
+
 public class XMLTokenizer
 {
 	private java.io.BufferedReader	reader		= null;
@@ -295,9 +297,11 @@ public class XMLTokenizer
 			{
 				System.out.println("Unable to read file '" + args[i] + "'");
 				continue;
-			}
+			} catch (IOException e) {
+                throw new RuntimeException(e);
+            }
 
-			XMLTokenizer.XMLToken	token		= null;
+            XMLTokenizer.XMLToken	token		= null;
 
 			System.out.println("File:  '" + args[i] + "'");
 
