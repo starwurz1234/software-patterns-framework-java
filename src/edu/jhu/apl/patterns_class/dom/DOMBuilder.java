@@ -2,10 +2,9 @@ package edu.jhu.apl.patterns_class.dom;
 
 import edu.jhu.apl.patterns_class.XMLTokenizer;
 import edu.jhu.apl.patterns_class.dom.interfaces.Builder;
+import edu.jhu.apl.patterns_class.dom.interfaces.ChangeManager;
 import edu.jhu.apl.patterns_class.dom.interfaces.Observer;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Stack;
 
 import static edu.jhu.apl.patterns_class.XMLTokenizer.XMLToken.*;
@@ -15,11 +14,12 @@ public class DOMBuilder implements Builder {
     edu.jhu.apl.patterns_class.dom.replacement.Document document;
     Stack<Node> workingNodes;
     String state = "";
-    List<Observer> observers = new ArrayList<Observer>();
+    ChangeManager changeManager;
 
-    public DOMBuilder() {
+    public DOMBuilder(ChangeManager cManager) {
         this.document = new Document();
         this.workingNodes = new Stack<>();
+        this.changeManager = cManager;
     }
 
     public edu.jhu.apl.patterns_class.dom.replacement.Document getDocument() {
@@ -91,19 +91,17 @@ public class DOMBuilder implements Builder {
 
     @Override
     public void attach(Observer observer) {
-        observers.add(observer);
+        this.changeManager.register(this, observer);
     }
 
     @Override
     public void detach(Observer observer) {
-        observers.remove(observer);
+        this.changeManager.unregister(this, observer);
     }
 
     @Override
     public void notifyObservers() {
-        for (Observer observer : observers) {
-            observer.Update(getState());
-        }
+        this.changeManager.notifyObservers();
     }
 
     public String getState() {

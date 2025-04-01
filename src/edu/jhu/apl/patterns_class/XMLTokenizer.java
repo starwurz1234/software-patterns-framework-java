@@ -1,5 +1,6 @@
 package edu.jhu.apl.patterns_class;
 
+import edu.jhu.apl.patterns_class.dom.BuilderChangeManager;
 import edu.jhu.apl.patterns_class.dom.DOMBuilder;
 import edu.jhu.apl.patterns_class.dom.Director;
 import edu.jhu.apl.patterns_class.dom.interfaces.Builder;
@@ -286,7 +287,8 @@ public class XMLTokenizer
 			try
 			{
 				tokenizer	= new XMLTokenizer(args[i]);
-				DOMBuilder builder = new DOMBuilder();
+				BuilderChangeManager changeManager = new BuilderChangeManager();
+				DOMBuilder builder = new DOMBuilder(changeManager);
 				Director director = new Director(builder);
 				builder.attach(director);
 				director.construct(args[i]);

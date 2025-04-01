@@ -44,7 +44,8 @@ public class Director implements Observer{
 
     }
 
-    public void Update(String state) {
-        System.out.println(state);
+    @Override
+    public void Update(DOMBuilder builder) {
+        System.out.println(builder.getState());
     }
 }
