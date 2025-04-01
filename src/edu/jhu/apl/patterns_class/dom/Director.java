@@ -2,8 +2,9 @@ package edu.jhu.apl.patterns_class.dom;
 
 import edu.jhu.apl.patterns_class.XMLTokenizer;
 import edu.jhu.apl.patterns_class.dom.interfaces.Builder;
+import edu.jhu.apl.patterns_class.dom.interfaces.Observer;
 
-public class Director {
+public class Director implements Observer{
 
     Builder builder;
 
@@ -41,5 +42,9 @@ public class Director {
 
         } while (token.getTokenType() != XMLTokenizer.XMLToken.NULL);
 
+    }
+
+    public void Update(String state) {
+        System.out.println(state);
     }
 }

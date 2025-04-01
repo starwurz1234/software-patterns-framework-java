@@ -288,13 +288,13 @@ public class XMLTokenizer
 				tokenizer	= new XMLTokenizer(args[i]);
 				DOMBuilder builder = new DOMBuilder();
 				Director director = new Director(builder);
+				builder.attach(director);
 				director.construct(args[i]);
 				Document document = builder.getDocument();
 				System.out.println();
 			}
 			catch (java.io.FileNotFoundException e)
 			{
-				System.out.println("test");
 				System.out.println("Unable to read file '" + args[i] + "'");
 				continue;
 			}
