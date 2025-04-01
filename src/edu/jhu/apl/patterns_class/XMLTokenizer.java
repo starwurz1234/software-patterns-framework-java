@@ -294,6 +294,7 @@ public class XMLTokenizer
 			}
 			catch (java.io.FileNotFoundException e)
 			{
+				System.out.println("test");
 				System.out.println("Unable to read file '" + args[i] + "'");
 				continue;
 			}
