@@ -37,12 +37,18 @@ public class Document extends Node implements edu.jhu.apl.patterns_class.dom.rep
 
 	@Override
 	public void addEventHandler(EventHandler handler) {
-
+		if (eventHandler == null) {
+			eventHandler = handler;
+		} else {
+			eventHandler.addSuccessor(handler);
+		}
 	}
 
 	@Override
 	public void handleEvent(Event event) {
-		this.eventHandler.handleEvent(event);
+		if (this.eventHandler != null) {
+			this.eventHandler.handleEvent(event);
+		}
 	}
 
 	//

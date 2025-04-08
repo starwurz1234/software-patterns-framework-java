@@ -24,6 +24,10 @@ public class EventHandler extends Element{
     }
 
     public void addSuccessor(EventHandler handler) {
-        this.successor = handler;
+        if (this.successor == null) {
+            this.successor = handler;
+        } else {
+            this.successor.addSuccessor(handler);
+        }
     }
 }

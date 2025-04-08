@@ -124,6 +124,10 @@ public class Node implements edu.jhu.apl.patterns_class.dom.replacement.Node
 		if (newChild.getParentNode() != null)
 			newChild.getParentNode().removeChild(newChild);
 
+		if (newChild instanceof EventHandler) {
+			getOwnerDocument().addEventHandler((EventHandler)newChild);
+		}
+
 		nodes.addLast(newChild);
 		((Node )newChild).setParent(this);
 
