@@ -1,5 +1,10 @@
 package edu.jhu.apl.patterns_class;
 
+import edu.jhu.apl.patterns_class.dom.replacement.Momento;
+
+import java.util.List;
+import java.util.Vector;
+
 public class XMLValidator
 {
 	private java.util.Vector<ValidChildren>	schema	= new java.util.Vector<ValidChildren>();
@@ -54,6 +59,20 @@ public class XMLValidator
 		return schemaElement == null ? true : schemaElement.childIsValid(newAttribute, true);
 	}
 
+	public Momento getMomento() {
+		return new ValidatorMomento(new Vector<>(this.schema));
+	}
+
+	public void setMomento(Momento momento) {
+		this.schema = ((ValidatorMomento)momento).getState();
+	}
+
+	public void printChildren() {
+		for (ValidChildren validChildren : this.schema) {
+			System.out.println(validChildren.getThisElement());
+		}
+	}
+
 	//
 	// Optional for schema implementation:
 	//
@@ -91,6 +110,10 @@ public class XMLValidator
 		ValidChildren	schemaElement	= xmlValidator.addSchemaElement(null);
 		schemaElement.addValidChild("document", false);
 		schemaElement	= xmlValidator.addSchemaElement("document");
+		System.out.println("Preserving state:");
+		xmlValidator.printChildren();
+		System.out.println();
+		Momento momento = xmlValidator.getMomento();
 		schemaElement.addValidChild("element", false);
 		schemaElement	= xmlValidator.addSchemaElement("element");
 		schemaElement.addValidChild("element", false);
@@ -199,7 +222,14 @@ public class XMLValidator
 			System.out.println("Attempted invalid schema operation.");
 			System.exit(0);
 		}
+		System.out.println("Validator state at the end of validation:");
+		xmlValidator.printChildren();
+		System.out.println();
 
+		System.out.println("Restoring to saved state:");
+		xmlValidator.setMomento(momento);
+		xmlValidator.printChildren();
+		System.out.println();
 		//
 		// Serialize
 		//
@@ -213,6 +243,18 @@ public class XMLValidator
 		{
 			System.out.println("Error writing file.");
 			e.printStackTrace();
+		}
+	}
+
+	private class ValidatorMomento implements Momento {
+		java.util.Vector<ValidChildren>	schema;
+
+		public ValidatorMomento(java.util.Vector<ValidChildren>	schema) {
+			this.schema = schema;
+		}
+
+		public java.util.Vector<ValidChildren> getState() {
+			return this.schema;
 		}
 	}
 }
