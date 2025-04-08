@@ -1,5 +1,7 @@
 package edu.jhu.apl.patterns_class.dom.replacement;
 
+import edu.jhu.apl.patterns_class.dom.Event;
+
 public interface Element extends Node
 {
 	//
@@ -14,6 +16,7 @@ public interface Element extends Node
 	public Attr removeAttributeNode(Attr oldAttr);
 	public void setAttribute(String name, String value);
 	public Attr setAttributeNode(Attr newAttr);
+	public void handleEvent(Event event);
 
 	//
 	// Unimplemented Element members.

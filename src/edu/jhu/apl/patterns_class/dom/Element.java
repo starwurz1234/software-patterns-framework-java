@@ -153,6 +153,11 @@ public class Element extends Node implements edu.jhu.apl.patterns_class.dom.repl
 		return oldAttribute;
 	}
 
+	@Override
+	public void handleEvent(Event event) {
+		this.getOwnerDocument().handleEvent(event);
+	}
+
 	//
 	// Unimplemented Element members.
 	//

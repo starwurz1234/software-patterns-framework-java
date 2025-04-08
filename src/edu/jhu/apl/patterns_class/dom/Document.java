@@ -2,6 +2,8 @@ package edu.jhu.apl.patterns_class.dom;
 
 public class Document extends Node implements edu.jhu.apl.patterns_class.dom.replacement.Document
 {
+	EventHandler eventHandler;
+
 	public Document()
 	{
 		super(null, org.w3c.dom.Node.DOCUMENT_NODE);
@@ -16,6 +18,9 @@ public class Document extends Node implements edu.jhu.apl.patterns_class.dom.rep
 	public edu.jhu.apl.patterns_class.dom.replacement.Text createTextNode(String data) { return new Text(data, this); }
 	public edu.jhu.apl.patterns_class.dom.replacement.Attr createAttribute(String name) throws org.w3c.dom.DOMException
 	  { return new Attr(name, this); }
+	public EventHandler createEventHandler(String name, String type) {
+		return new EventHandler(name, this, type);
+	}
 	public edu.jhu.apl.patterns_class.dom.replacement.Element getDocumentElement()
 	{
 		for (java.util.ListIterator i = ((NodeList )getChildNodes()).listIterator(0); i.hasNext();)
@@ -28,6 +33,16 @@ public class Document extends Node implements edu.jhu.apl.patterns_class.dom.rep
 		}
 
 		return null;
+	}
+
+	@Override
+	public void addEventHandler(EventHandler handler) {
+
+	}
+
+	@Override
+	public void handleEvent(Event event) {
+		this.eventHandler.handleEvent(event);
 	}
 
 	//

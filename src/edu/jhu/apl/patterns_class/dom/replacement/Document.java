@@ -1,5 +1,8 @@
 package edu.jhu.apl.patterns_class.dom.replacement;
 
+import edu.jhu.apl.patterns_class.dom.Event;
+import edu.jhu.apl.patterns_class.dom.EventHandler;
+
 public interface Document extends Node
 {
 	//
@@ -8,7 +11,10 @@ public interface Document extends Node
 	public Element createElement(String tagName) throws org.w3c.dom.DOMException;
 	public Text createTextNode(String data);
 	public Attr createAttribute(String name) throws org.w3c.dom.DOMException;
+	public EventHandler createEventHandler(String name, String type);
 	public Element getDocumentElement();
+	public void addEventHandler(EventHandler handler);
+	public void handleEvent(Event event);
 
 	//
 	// Unimplemented Document members.
