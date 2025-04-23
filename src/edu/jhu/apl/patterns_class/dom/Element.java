@@ -12,6 +12,76 @@ public class Element extends Node implements edu.jhu.apl.patterns_class.dom.repl
 	}
 
 	//
+	// Chain of Responsibility
+	//
+	public void HandleRequest(String event)
+	{
+		String	eventTemplate	= getAttribute("message");
+
+		if (eventTemplate != null && eventTemplate.compareTo(event) == 0)
+			System.out.println("Handling event " + event + ".");
+		else if (getParentNode() != null && getParentNode() instanceof edu.jhu.apl.patterns_class.dom.replacement.Element)
+			((edu.jhu.apl.patterns_class.dom.replacement.Element )getParentNode()).HandleRequest(event);
+		else
+			System.out.println("Reached root of DOM tree without handling event '" + event + "'.");
+	}
+
+	//
+	// Serialization Data Extraction Strategy
+	//
+	public void serialize(java.io.Writer writer, edu.jhu.apl.patterns_class.XMLSerializer.WhitespaceStrategy whitespace)
+	  throws java.io.IOException
+	{
+		whitespace.prettyIndentation(writer);
+		writer.write("<" + getTagName());
+
+		int	attrCount	= 0;
+
+		for (java.util.ListIterator i =
+		  ((edu.jhu.apl.patterns_class.dom.NodeList )getAttributes()).listIterator(0);
+		  i.hasNext();)
+		{
+			edu.jhu.apl.patterns_class.dom.replacement.Node	attr =
+			  (edu.jhu.apl.patterns_class.dom.replacement.Node )i.next();
+
+			attr.serialize(writer, whitespace);
+			attrCount++;
+		}
+
+		if (attrCount > 0)
+			writer.write(" ");
+
+		if (!((edu.jhu.apl.patterns_class.dom.NodeList )getChildNodes()).listIterator(0).hasNext())
+		{
+			writer.write("/>");
+			whitespace.newLine(writer);
+		}
+		else
+		{
+			writer.write(">");
+			whitespace.newLine(writer);
+			whitespace.incrementIndentation();
+
+			for (java.util.ListIterator i =
+			  ((edu.jhu.apl.patterns_class.dom.NodeList )getChildNodes()).listIterator(0);
+			  i.hasNext();)
+			{
+				edu.jhu.apl.patterns_class.dom.replacement.Node	child =
+				  (edu.jhu.apl.patterns_class.dom.replacement.Node )i.next();
+
+				if (child instanceof edu.jhu.apl.patterns_class.dom.replacement.Element ||
+				  child instanceof edu.jhu.apl.patterns_class.dom.replacement.Text)
+					child.serialize(writer, whitespace);
+			}
+
+			whitespace.decrementIndentation();
+			whitespace.prettyIndentation(writer);
+			writer.write("</" + getTagName() + ">");
+			whitespace.newLine(writer);
+		}
+	}
+
+	//
 	// Implemented Element members.
 	//
 	public String getAttribute(String name)
@@ -181,4 +251,69 @@ public class Element extends Node implements edu.jhu.apl.patterns_class.dom.repl
 	//
 	public edu.jhu.apl.patterns_class.dom.replacement.NamedNodeMap getAttributes()	{ return attributes; }
 	public boolean hasAttributes()			{ return attributes.getLength() > 0; }
+
+	public static void main(String[] args)
+	{
+		if (args.length < 1)
+		{
+			System.out.println("No input filename provided.");
+			System.exit(0);
+		}
+
+		edu.jhu.apl.patterns_class.dom.replacement.Document	document = new edu.jhu.apl.patterns_class.dom.Document();
+		edu.jhu.apl.patterns_class.Builder			builder	 = new edu.jhu.apl.patterns_class.Builder(document);
+	
+		//
+		// Schema for this document:
+		// handlers contains:  handler
+		// handler contains:  handler
+		// handler contains attributes:  message
+		//
+		edu.jhu.apl.patterns_class.XMLValidator	xmlValidator	= new edu.jhu.apl.patterns_class.XMLValidator();
+		edu.jhu.apl.patterns_class.ValidChildren	schemaElement	= xmlValidator.addSchemaElement(null);
+		schemaElement.addValidChild("handlers", false);
+		schemaElement	= xmlValidator.addSchemaElement("handlers");
+		schemaElement.addValidChild("handler", false);
+		schemaElement	= xmlValidator.addSchemaElement("handler");
+		schemaElement.addValidChild("handler", false);
+		schemaElement.addValidChild("message", true);
+		schemaElement.setCanHaveText(false);
+
+		try
+		{
+			edu.jhu.apl.patterns_class.Director		director =
+			  new edu.jhu.apl.patterns_class.Director(args[0], builder);
+			int	typeCounter	= 1;
+			for (java.util.Iterator<edu.jhu.apl.patterns_class.dom.replacement.Node>
+			  iterator = document.createIterator(null);
+			  iterator.hasNext();)
+			{
+				edu.jhu.apl.patterns_class.dom.replacement.Node	node	= iterator.next();
+
+				if (node != null && node instanceof edu.jhu.apl.patterns_class.dom.replacement.Element &&
+				  !node.hasChildNodes())
+				{
+					System.out.println("Sending event type" + typeCounter + " to Element node.");
+					((edu.jhu.apl.patterns_class.dom.replacement.Element )node).HandleRequest("type" +
+					  typeCounter);
+					typeCounter++;
+				}
+			}
+		}
+		catch (java.io.FileNotFoundException e)
+		{
+			System.out.println("Exception:  " + e);
+			e.printStackTrace();
+		}
+		catch (java.io.IOException e)
+		{
+			System.out.println("Exception:  " + e);
+			e.printStackTrace();
+		}
+		catch (org.w3c.dom.DOMException e)
+		{
+			System.out.println("Exception:  " + e);
+			e.printStackTrace();
+		}
+	}
 }

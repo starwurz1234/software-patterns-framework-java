@@ -19,6 +19,14 @@ public class Node implements edu.jhu.apl.patterns_class.dom.replacement.Node
 	void setParent(Node parent)							{ this.parent = parent; }
 
 	//
+	// Serialization Data Extraction Strategy
+	//
+	public void serialize(java.io.Writer writer, edu.jhu.apl.patterns_class.XMLSerializer.WhitespaceStrategy whitespace)
+	  throws java.io.IOException
+	{
+	}
+
+	//
 	// Implemented Interface Members
 	//
 	public String getNodeName()							{ return name; }
