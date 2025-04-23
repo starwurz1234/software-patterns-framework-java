@@ -72,6 +72,13 @@ public class Attr extends Node implements edu.jhu.apl.patterns_class.dom.replace
 		return null;
 	}
 
+	@Override
+	public edu.jhu.apl.patterns_class.dom.replacement.Node clone(edu.jhu.apl.patterns_class.dom.replacement.Document document) {
+		edu.jhu.apl.patterns_class.dom.replacement.Attr newAttr = document.createAttribute(this.getName());
+		newAttr.setValue(this.getValue());
+		return newAttr;
+	}
+
 	//
 	// Unimplemented Attr members.
 	//

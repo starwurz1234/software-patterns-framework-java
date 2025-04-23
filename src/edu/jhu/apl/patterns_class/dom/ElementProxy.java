@@ -1,5 +1,8 @@
 package edu.jhu.apl.patterns_class.dom;
 
+import edu.jhu.apl.patterns_class.dom.replacement.Document;
+import edu.jhu.apl.patterns_class.dom.replacement.Node;
+
 public class ElementProxy implements edu.jhu.apl.patterns_class.dom.replacement.Element
 {
 	private edu.jhu.apl.patterns_class.dom.replacement.Element	realSubject	= null;
@@ -185,4 +188,8 @@ public class ElementProxy implements edu.jhu.apl.patterns_class.dom.replacement.
 	public String getTextContent()									{ return null; }
 	public short compareDocumentPosition(edu.jhu.apl.patterns_class.dom.replacement.Node other)	{ return (short )0; }
 	public String getBaseURI()									{ return null; }
+
+	public Node clone(Document document) {
+		return this.realSubject.clone(document);
+	}
 }

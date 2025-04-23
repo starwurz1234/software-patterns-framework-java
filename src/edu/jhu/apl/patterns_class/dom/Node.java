@@ -140,6 +140,11 @@ public class Node implements edu.jhu.apl.patterns_class.dom.replacement.Node
 	public boolean hasChildNodes()					{ return nodes.size() > 0; }
 	public String getLocalName()					{ return name; }
 
+	@Override
+	public edu.jhu.apl.patterns_class.dom.replacement.Node clone(edu.jhu.apl.patterns_class.dom.replacement.Document document) {
+		return null;
+	}
+
 	//
 	// Unimplemented Interface Members
 	//

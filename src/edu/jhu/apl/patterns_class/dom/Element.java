@@ -223,6 +223,24 @@ public class Element extends Node implements edu.jhu.apl.patterns_class.dom.repl
 		return oldAttribute;
 	}
 
+	@Override
+	public edu.jhu.apl.patterns_class.dom.replacement.Node clone(edu.jhu.apl.patterns_class.dom.replacement.Document document) {
+		edu.jhu.apl.patterns_class.dom.replacement.Element newElement = document.createElement(this.getTagName());
+		edu.jhu.apl.patterns_class.dom.replacement.NodeList children = this.getChildNodes();
+		if (this.hasAttributes()) {
+			edu.jhu.apl.patterns_class.dom.replacement.NamedNodeMap attrs = this.getAttributes();
+			for (int j = 0; j < attrs.getLength(); j++) {
+				Attr newAttr = (Attr)attrs.item(j).clone(document);
+				newElement.setAttributeNode(newAttr);
+			}
+		}
+
+		for (int i = 0; i < children.getLength(); i++) {
+			newElement.appendChild(children.item(i).clone(document));
+		}
+		return newElement;
+	}
+
 	//
 	// Unimplemented Element members.
 	//

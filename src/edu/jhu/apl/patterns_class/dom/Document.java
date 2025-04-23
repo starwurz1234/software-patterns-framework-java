@@ -41,6 +41,13 @@ public class Document extends Node implements edu.jhu.apl.patterns_class.dom.rep
 		return null;
 	}
 
+	@Override
+	public edu.jhu.apl.patterns_class.dom.replacement.Node clone(edu.jhu.apl.patterns_class.dom.replacement.Document doc) {
+		edu.jhu.apl.patterns_class.dom.replacement.Document newDocument = new Document();
+		newDocument.appendChild(getDocumentElement().clone(newDocument));
+		return newDocument;
+	}
+
 	//
 	// Iterator Factory
 	//

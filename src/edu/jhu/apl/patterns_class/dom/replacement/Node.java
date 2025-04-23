@@ -28,6 +28,7 @@ public interface Node
 	public Node	appendChild(Node newChild) throws org.w3c.dom.DOMException;
 	public boolean	hasChildNodes();
 	public String	getLocalName();
+	public Node clone(edu.jhu.apl.patterns_class.dom.replacement.Document document);
 
 	//
 	// Unimplemented Interface Members

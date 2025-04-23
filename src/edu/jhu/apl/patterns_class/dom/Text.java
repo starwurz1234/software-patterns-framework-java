@@ -145,4 +145,9 @@ public class Text extends Node implements edu.jhu.apl.patterns_class.dom.replace
 	public edu.jhu.apl.patterns_class.dom.replacement.Text replaceWholeText(String content) { return null; }
 	public String getWholeText() { return null; }
 	public boolean isElementContentWhitespace() { return false; }
+
+	@Override
+	public edu.jhu.apl.patterns_class.dom.replacement.Node clone(edu.jhu.apl.patterns_class.dom.replacement.Document document) {
+		return document.createTextNode(this.getValue());
+	}
 }
