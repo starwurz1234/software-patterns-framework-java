@@ -59,7 +59,7 @@ public class XMLSerializer
 	//
 	public void serializePretty(edu.jhu.apl.patterns_class.dom.replacement.Node node) throws java.io.IOException
 	{
-		node.serialize(writer, new PrettyWhitespaceStrategy());
+		node.accept(new PrettySerializationVisitor(writer));
 	}
 
 	public void serializeMinimal(edu.jhu.apl.patterns_class.dom.replacement.Node node) throws java.io.IOException
