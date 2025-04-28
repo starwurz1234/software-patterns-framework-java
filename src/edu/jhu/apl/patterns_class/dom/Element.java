@@ -1,5 +1,9 @@
 package edu.jhu.apl.patterns_class.dom;
 
+import edu.jhu.apl.patterns_class.SerializationVisitor;
+
+import java.io.IOException;
+
 public class Element extends Node implements edu.jhu.apl.patterns_class.dom.replacement.Element
 {
 	private NamedNodeMap		attributes	= null;
@@ -24,6 +28,11 @@ public class Element extends Node implements edu.jhu.apl.patterns_class.dom.repl
 			((edu.jhu.apl.patterns_class.dom.replacement.Element )getParentNode()).HandleRequest(event);
 		else
 			System.out.println("Reached root of DOM tree without handling event '" + event + "'.");
+	}
+
+	@Override
+	public void accept(SerializationVisitor visitor) throws IOException {
+		visitor.serializeElement(this);
 	}
 
 	//

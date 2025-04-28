@@ -1,5 +1,9 @@
 package edu.jhu.apl.patterns_class.dom;
 
+import edu.jhu.apl.patterns_class.SerializationVisitor;
+
+import java.io.IOException;
+
 public class Document extends Node implements edu.jhu.apl.patterns_class.dom.replacement.Document
 {
 	public Document()
@@ -17,6 +21,11 @@ public class Document extends Node implements edu.jhu.apl.patterns_class.dom.rep
 		writer.write("<? xml version=\"1.0\" encoding=\"UTF-8\"?>");
 		whitespace.newLine(writer);
 		getDocumentElement().serialize(writer, whitespace);
+	}
+
+	@Override
+	public void accept(SerializationVisitor visitor) throws IOException {
+		visitor.serializeDocument(this);
 	}
 
 	//

@@ -1,5 +1,9 @@
 package edu.jhu.apl.patterns_class.dom;
 
+import edu.jhu.apl.patterns_class.SerializationVisitor;
+
+import java.io.IOException;
+
 public class Attr extends Node implements edu.jhu.apl.patterns_class.dom.replacement.Attr
 {
 	Attr(String tagName, Document document)
@@ -70,6 +74,11 @@ public class Attr extends Node implements edu.jhu.apl.patterns_class.dom.replace
 	  throws org.w3c.dom.DOMException
 	{
 		return null;
+	}
+
+	@Override
+	public void accept(SerializationVisitor visitor) throws IOException {
+		visitor.serializeAttr(this);
 	}
 
 	//

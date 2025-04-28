@@ -1,5 +1,9 @@
 package edu.jhu.apl.patterns_class.dom;
 
+import edu.jhu.apl.patterns_class.SerializationVisitor;
+
+import java.io.IOException;
+
 public class Text extends Node implements edu.jhu.apl.patterns_class.dom.replacement.Text
 {
 	Text(String value, Document document)
@@ -18,6 +22,11 @@ public class Text extends Node implements edu.jhu.apl.patterns_class.dom.replace
 		whitespace.prettyIndentation(writer);
 		writer.write(getData());
 		whitespace.newLine(writer);
+	}
+
+	@Override
+	public void accept(SerializationVisitor visitor) throws IOException {
+		visitor.serializeText(this);
 	}
 
 	//

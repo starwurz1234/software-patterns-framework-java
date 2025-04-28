@@ -1,5 +1,9 @@
 package edu.jhu.apl.patterns_class.dom.replacement;
 
+import edu.jhu.apl.patterns_class.SerializationVisitor;
+
+import java.io.IOException;
+
 public interface Node
 {
 	//
@@ -28,6 +32,7 @@ public interface Node
 	public Node	appendChild(Node newChild) throws org.w3c.dom.DOMException;
 	public boolean	hasChildNodes();
 	public String	getLocalName();
+	public void accept(SerializationVisitor visitor) throws IOException;
 
 	//
 	// Unimplemented Interface Members

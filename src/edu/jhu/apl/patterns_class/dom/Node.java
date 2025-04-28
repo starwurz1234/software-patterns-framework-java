@@ -1,5 +1,9 @@
 package edu.jhu.apl.patterns_class.dom;
 
+import edu.jhu.apl.patterns_class.SerializationVisitor;
+
+import java.io.IOException;
+
 public class Node implements edu.jhu.apl.patterns_class.dom.replacement.Node
 {
 	private String		name		= null;
@@ -139,6 +143,8 @@ public class Node implements edu.jhu.apl.patterns_class.dom.replacement.Node
 	}
 	public boolean hasChildNodes()					{ return nodes.size() > 0; }
 	public String getLocalName()					{ return name; }
+
+	public void accept(SerializationVisitor visitor) throws IOException {}
 
 	//
 	// Unimplemented Interface Members

@@ -64,7 +64,7 @@ public class XMLSerializer
 
 	public void serializeMinimal(edu.jhu.apl.patterns_class.dom.replacement.Node node) throws java.io.IOException
 	{
-		node.serialize(writer, new MinimalWhitespaceStrategy());
+		node.accept(new MinimalSerializationVisitor(writer));
 	}
 
 	public static void main(String args[])

@@ -1,5 +1,9 @@
 package edu.jhu.apl.patterns_class.dom;
 
+import edu.jhu.apl.patterns_class.SerializationVisitor;
+
+import java.io.IOException;
+
 public class ElementProxy implements edu.jhu.apl.patterns_class.dom.replacement.Element
 {
 	private edu.jhu.apl.patterns_class.dom.replacement.Element	realSubject	= null;
@@ -166,6 +170,11 @@ public class ElementProxy implements edu.jhu.apl.patterns_class.dom.replacement.
 	public edu.jhu.apl.patterns_class.dom.replacement.NamedNodeMap getAttributes()	{ return realSubject.getAttributes(); }
 	public boolean hasAttributes()							{ return realSubject.hasAttributes(); }
 	public String getLocalName()							{ return realSubject.getLocalName(); }
+
+	@Override
+	public void accept(SerializationVisitor visitor) throws IOException {
+		this.realSubject.accept(visitor);
+	}
 
 	public void normalize() {}
 	public boolean isSupported(String feature, String version)					{ return false; }
