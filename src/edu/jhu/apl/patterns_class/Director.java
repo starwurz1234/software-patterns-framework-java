@@ -23,6 +23,7 @@ public class Director
 		{
 			token		= tokenizer.getNextToken();
 			currentToken	= token.getTokenType();
+			builder.setState(null);
 
 			switch(documentLocation)
 			{
@@ -33,7 +34,7 @@ public class Director
 					switch(currentToken)
 					{
 					case XMLToken.PROLOG_START:
-						builder.createProlog();
+						builder.setState(new PrologStartState());
 						documentLocation	= AFTER_PROLOG;
 						break;
 					default:
@@ -49,7 +50,7 @@ public class Director
 					switch(currentToken)
 					{
 					case XMLToken.PROLOG_IDENTIFIER:
-						builder.identifyProlog(token.getToken());
+						builder.setState(new IdentifyPrologState(token.getToken()));
 						break;
 					default:
 					}
@@ -58,10 +59,10 @@ public class Director
 					switch(currentToken)
 					{
 					case XMLToken.ATTRIBUTE:
-						builder.createAttribute(token.getToken());
+						builder.setState(new StartAttributeState(token.getToken()));
 						break;
 					case XMLToken.PROLOG_END:
-						builder.endProlog();
+						builder.setState(new PrologEndState());
 						documentLocation	= PARSING_ELEMENT;
 						break;
 					default:
@@ -71,7 +72,7 @@ public class Director
 					switch(currentToken)
 					{
 					case XMLToken.ATTRIBUTE_VALUE:
-						builder.valueAttribute(token.getToken());
+						builder.setState(new AttributeValueState(token.getToken()));
 						break;
 					default:
 					}
@@ -80,10 +81,10 @@ public class Director
 					switch(currentToken)
 					{
 					case XMLToken.ATTRIBUTE:
-						builder.createAttribute(token.getToken());
+						builder.setState(new StartAttributeState(token.getToken()));
 						break;
 					case XMLToken.PROLOG_END:
-						builder.endProlog();
+						builder.setState(new PrologEndState());
 						documentLocation	= PARSING_ELEMENT;
 						break;
 					default:
@@ -98,7 +99,7 @@ public class Director
 					switch(currentToken)
 					{
 					case XMLToken.ELEMENT:
-						builder.createElement(token.getToken());
+						builder.setState(new StartElementState(token.getToken()));
 						break;
 					default:
 					}
@@ -107,11 +108,11 @@ public class Director
 					switch(currentToken)
 					{
 					case XMLToken.ATTRIBUTE:
-						builder.createAttribute(token.getToken());
+						builder.setState(new StartAttributeState(token.getToken()));
 						break;
 					case XMLToken.TAG_END:
 						documentLocation	= IN_NONNULL_ELEMENT;
-						builder.pushElement();
+						builder.setState(new ElementTagEndState());
 						break;
 					case XMLToken.NULL_TAG_END:
 						break;
@@ -122,7 +123,7 @@ public class Director
 					switch(currentToken)
 					{
 					case XMLToken.ATTRIBUTE_VALUE:
-						builder.valueAttribute(token.getToken());
+						builder.setState(new AttributeValueState(token.getToken()));
 						break;
 					default:
 					}
@@ -131,11 +132,11 @@ public class Director
 					switch(currentToken)
 					{
 					case XMLToken.ATTRIBUTE:
-						builder.createAttribute(token.getToken());
+						builder.setState(new StartAttributeState(token.getToken()));
 						break;
 					case XMLToken.TAG_END:
 						documentLocation	= IN_NONNULL_ELEMENT;
-						builder.pushElement();
+						builder.setState(new ElementTagEndState());
 						break;
 					case XMLToken.NULL_TAG_END:
 						break;
@@ -187,7 +188,7 @@ public class Director
 						// Actually create element when we read tag name.
 						break;
 					case XMLToken.VALUE:
-						builder.addValue(token.getToken());
+						builder.setState(new AddValueState(token.getToken()));
 						break;
 					case XMLToken.TAG_CLOSE_START:
 						break;
@@ -225,6 +226,8 @@ public class Director
 			default:
 				// Shouldn't be able to get here.
 			}
+
+			builder.executeState();
 
 			lastToken	= currentToken;
 		} while (currentToken != XMLToken.NULL);
