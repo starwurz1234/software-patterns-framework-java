@@ -8,15 +8,18 @@ public class Document extends Node implements edu.jhu.apl.patterns_class.dom.rep
 		document	= this;
 	}
 
-	//
-	// Serialization Data Extraction Strategy
-	//
-	public void serialize(java.io.Writer writer, edu.jhu.apl.patterns_class.XMLSerializer.WhitespaceStrategy whitespace)
-	  throws java.io.IOException
+	public void Accept(edu.jhu.apl.patterns_class.Visitor visitor) throws java.io.IOException
 	{
-		writer.write("<? xml version=\"1.0\" encoding=\"UTF-8\"?>");
-		whitespace.newLine(writer);
-		getDocumentElement().serialize(writer, whitespace);
+		visitor.VisitDocument(this);
+	}
+
+	//
+	// Prototype Clone
+	//
+	public edu.jhu.apl.patterns_class.dom.replacement.Node cloneNode(boolean deep)
+	{
+		return null;	// This implementation doesn't have the ability to reparent a cloned tree into a new document.
+				// Therefore it can't usefully support cloning of Document.
 	}
 
 	//
@@ -74,7 +77,6 @@ public class Document extends Node implements edu.jhu.apl.patterns_class.dom.rep
 	public edu.jhu.apl.patterns_class.dom.replacement.NodeList getElementsByTagNameNS(String namespaceURI, String localName)
 	  { return null; }
 	public edu.jhu.apl.patterns_class.dom.replacement.Element getElementById(String elementId) { return null; }
-	public edu.jhu.apl.patterns_class.dom.replacement.Node cloneNode(boolean deep) { return null; }
 	public edu.jhu.apl.patterns_class.dom.replacement.Node
 	  renameNode(edu.jhu.apl.patterns_class.dom.replacement.Node n, String namespaceURI, String qualifiedName) { return null; }
 	public void normalizeDocument() {}

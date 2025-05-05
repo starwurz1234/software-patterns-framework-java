@@ -2,26 +2,30 @@ package edu.jhu.apl.patterns_class.dom;
 
 public class Attr extends Node implements edu.jhu.apl.patterns_class.dom.replacement.Attr
 {
-	Attr(String tagName, Document document)
+	Attr(String tagName, edu.jhu.apl.patterns_class.dom.replacement.Document document)
 	{
 		super(tagName, org.w3c.dom.Node.ATTRIBUTE_NODE);
 		this.document	= document;
 	}
 
-	Attr(String tagName, String value, Document document)
+	Attr(String tagName, String value, edu.jhu.apl.patterns_class.dom.replacement.Document document)
 	{
 		super(tagName, org.w3c.dom.Node.ATTRIBUTE_NODE);
 		this.document	= document;
 		setValue(value);
 	}
 
-	//
-	// Serialization Data Extraction Strategy
-	//
-	public void serialize(java.io.Writer writer, edu.jhu.apl.patterns_class.XMLSerializer.WhitespaceStrategy whitespace)
-	  throws java.io.IOException
+	public void Accept(edu.jhu.apl.patterns_class.Visitor visitor) throws java.io.IOException
 	{
-		writer.write(" " + getName() + "=\"" + getValue() + "\"");
+		visitor.VisitAttribute(this);
+	}
+
+	//
+	// Prototype Clone
+	//
+	public edu.jhu.apl.patterns_class.dom.replacement.Node cloneNode(boolean deep)
+	{
+		return new Attr(getName(), getValue(), getOwnerDocument());
 	}
 
 	//

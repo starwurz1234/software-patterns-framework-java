@@ -2,22 +2,24 @@ package edu.jhu.apl.patterns_class.dom;
 
 public class Text extends Node implements edu.jhu.apl.patterns_class.dom.replacement.Text
 {
-	Text(String value, Document document)
+	Text(String value, edu.jhu.apl.patterns_class.dom.replacement.Document document)
 	{
 		super(null, org.w3c.dom.Node.TEXT_NODE);
 		setNodeValue(value);
 		this.document	= document;
 	}
 
-	//
-	// Serialization Data Extraction Strategy
-	//
-	public void serialize(java.io.Writer writer, edu.jhu.apl.patterns_class.XMLSerializer.WhitespaceStrategy whitespace)
-	  throws java.io.IOException
+	public void Accept(edu.jhu.apl.patterns_class.Visitor visitor) throws java.io.IOException
 	{
-		whitespace.prettyIndentation(writer);
-		writer.write(getData());
-		whitespace.newLine(writer);
+		visitor.VisitText(this);
+	}
+
+	//
+	// Prototype Clone
+	//
+	public edu.jhu.apl.patterns_class.dom.replacement.Node cloneNode(boolean deep)
+	{
+		return new Text(getValue(), getOwnerDocument());
 	}
 
 	//

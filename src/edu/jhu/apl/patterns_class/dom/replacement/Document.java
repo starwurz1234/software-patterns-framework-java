@@ -2,11 +2,7 @@ package edu.jhu.apl.patterns_class.dom.replacement;
 
 public interface Document extends Node
 {
-	//
-	// Serialization Data Extraction Strategy
-	//
-	public void serialize(java.io.Writer writer, edu.jhu.apl.patterns_class.XMLSerializer.WhitespaceStrategy whitespace)
-	  throws java.io.IOException;
+	public void Accept(edu.jhu.apl.patterns_class.Visitor visitor) throws java.io.IOException;
 
 	//
 	// Implemented Document members.
@@ -37,7 +33,7 @@ public interface Document extends Node
 	public Attr createAttributeNS(String namespaceURI, String qualifiedName) throws org.w3c.dom.DOMException;
 	public NodeList getElementsByTagNameNS(String namespaceURI, String localName);
 	public Element getElementById(String elementId);
-	public Node cloneNode(boolean deep);
+	public Node cloneNode(boolean deep);	// Prototype Clone
 	public Node renameNode(Node n, String namespaceURI, String qualifiedName);
 	public void normalizeDocument();
 	public org.w3c.dom.DOMConfiguration getDomConfig();

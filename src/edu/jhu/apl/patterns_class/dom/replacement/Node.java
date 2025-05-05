@@ -2,11 +2,7 @@ package edu.jhu.apl.patterns_class.dom.replacement;
 
 public interface Node
 {
-	//
-	// Serialization Data Extraction Strategy
-	//
-	public void serialize(java.io.Writer writer, edu.jhu.apl.patterns_class.XMLSerializer.WhitespaceStrategy whitespace)
-	  throws java.io.IOException;
+	public void Accept(edu.jhu.apl.patterns_class.Visitor visitor) throws java.io.IOException;
 
 	//
 	// Implemented Interface Members
@@ -37,7 +33,7 @@ public interface Node
 	public String getNamespaceURI();
 	public String getPrefix();
 	public void setPrefix(String prefix) throws org.w3c.dom.DOMException;
-	public Node cloneNode(boolean deep);
+	public Node cloneNode(boolean deep);	// Prototype Clone
 	public boolean hasAttributes();
 	public NamedNodeMap getAttributes();
 	public Object getUserData(String key);

@@ -4,11 +4,33 @@ public class Element extends Node implements edu.jhu.apl.patterns_class.dom.repl
 {
 	private NamedNodeMap		attributes	= null;
 
-	Element(String tagName, Document document)
+	Element(String tagName, edu.jhu.apl.patterns_class.dom.replacement.Document document)
 	{
 		super(tagName, org.w3c.dom.Node.ELEMENT_NODE);
 		this.document	= document;
 		attributes	= new NamedNodeMap(document);
+	}
+
+	//
+	// Prototype Clone
+	//
+	public edu.jhu.apl.patterns_class.dom.replacement.Node cloneNode(boolean deep)
+	{
+		Element	element	= new Element(getTagName(), getOwnerDocument());
+
+		if (deep)
+		{
+			edu.jhu.apl.patterns_class.dom.replacement.NodeList	children	= getChildNodes();
+
+			for (int i = 0; i < children.getLength(); i++)
+				element.appendChild(children.item(i).cloneNode(deep));
+
+			for (int i = 0; i < attributes.getLength(); i++)
+				element.setAttributeNode(
+				  (edu.jhu.apl.patterns_class.dom.replacement.Attr )attributes.item(i).cloneNode(deep));
+		}
+
+		return element;
 	}
 
 	//
@@ -26,59 +48,9 @@ public class Element extends Node implements edu.jhu.apl.patterns_class.dom.repl
 			System.out.println("Reached root of DOM tree without handling event '" + event + "'.");
 	}
 
-	//
-	// Serialization Data Extraction Strategy
-	//
-	public void serialize(java.io.Writer writer, edu.jhu.apl.patterns_class.XMLSerializer.WhitespaceStrategy whitespace)
-	  throws java.io.IOException
+	public void Accept(edu.jhu.apl.patterns_class.Visitor visitor) throws java.io.IOException
 	{
-		whitespace.prettyIndentation(writer);
-		writer.write("<" + getTagName());
-
-		int	attrCount	= 0;
-
-		for (java.util.ListIterator i =
-		  ((edu.jhu.apl.patterns_class.dom.NodeList )getAttributes()).listIterator(0);
-		  i.hasNext();)
-		{
-			edu.jhu.apl.patterns_class.dom.replacement.Node	attr =
-			  (edu.jhu.apl.patterns_class.dom.replacement.Node )i.next();
-
-			attr.serialize(writer, whitespace);
-			attrCount++;
-		}
-
-		if (attrCount > 0)
-			writer.write(" ");
-
-		if (!((edu.jhu.apl.patterns_class.dom.NodeList )getChildNodes()).listIterator(0).hasNext())
-		{
-			writer.write("/>");
-			whitespace.newLine(writer);
-		}
-		else
-		{
-			writer.write(">");
-			whitespace.newLine(writer);
-			whitespace.incrementIndentation();
-
-			for (java.util.ListIterator i =
-			  ((edu.jhu.apl.patterns_class.dom.NodeList )getChildNodes()).listIterator(0);
-			  i.hasNext();)
-			{
-				edu.jhu.apl.patterns_class.dom.replacement.Node	child =
-				  (edu.jhu.apl.patterns_class.dom.replacement.Node )i.next();
-
-				if (child instanceof edu.jhu.apl.patterns_class.dom.replacement.Element ||
-				  child instanceof edu.jhu.apl.patterns_class.dom.replacement.Text)
-					child.serialize(writer, whitespace);
-			}
-
-			whitespace.decrementIndentation();
-			whitespace.prettyIndentation(writer);
-			writer.write("</" + getTagName() + ">");
-			whitespace.newLine(writer);
-		}
+		visitor.VisitElement(this);
 	}
 
 	//

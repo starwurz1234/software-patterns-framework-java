@@ -7,7 +7,7 @@ public class Node implements edu.jhu.apl.patterns_class.dom.replacement.Node
 	private short		nodeType	= -1;
 	private Node		parent		= null;
 	private NodeList	nodes		= null;
-	protected Document	document	= null;
+	protected edu.jhu.apl.patterns_class.dom.replacement.Document	document	= null;
 
 	Node(String name, short type)
 	{
@@ -18,13 +18,14 @@ public class Node implements edu.jhu.apl.patterns_class.dom.replacement.Node
 
 	void setParent(Node parent)							{ this.parent = parent; }
 
-	//
-	// Serialization Data Extraction Strategy
-	//
-	public void serialize(java.io.Writer writer, edu.jhu.apl.patterns_class.XMLSerializer.WhitespaceStrategy whitespace)
-	  throws java.io.IOException
+	public void Accept(edu.jhu.apl.patterns_class.Visitor visitor) throws java.io.IOException
 	{
 	}
+
+	//
+	// Prototype Clone
+	//
+	public edu.jhu.apl.patterns_class.dom.replacement.Node cloneNode(boolean deep)			{ return null; }
 
 	//
 	// Implemented Interface Members
@@ -148,7 +149,6 @@ public class Node implements edu.jhu.apl.patterns_class.dom.replacement.Node
 	public String getNamespaceURI()									{ return null; }
 	public String getPrefix()									{ return null; }
 	public void setPrefix(String prefix) throws org.w3c.dom.DOMException				{}
-	public edu.jhu.apl.patterns_class.dom.replacement.Node cloneNode(boolean deep)			{ return null; }
 	public boolean hasAttributes()									{ return false; }
 	public edu.jhu.apl.patterns_class.dom.replacement.NamedNodeMap getAttributes()			{ return null; }
 	public Object getUserData(String key)								{ return null; }

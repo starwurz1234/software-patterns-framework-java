@@ -13,6 +13,23 @@ public class ElementValidator extends Node implements edu.jhu.apl.patterns_class
 		schemaElement	= xmlValidator.findSchemaElement(parent.getTagName());
 	}
 
+	private ElementValidator(edu.jhu.apl.patterns_class.dom.replacement.Element parent,
+	  edu.jhu.apl.patterns_class.ValidChildren schemaElement)
+	{
+		super(parent.getTagName(), org.w3c.dom.Node.ELEMENT_NODE);
+		this.parent		= parent;
+		this.schemaElement	= schemaElement;
+	}
+
+	//
+	// Prototype Clone
+	//
+	public edu.jhu.apl.patterns_class.dom.replacement.Node cloneNode(boolean deep)
+	{
+		return
+		  new ElementValidator((edu.jhu.apl.patterns_class.dom.replacement.Element )parent.cloneNode(deep), schemaElement);
+	}
+
 	//
 	// Chain of Responsibility
 	//
@@ -21,13 +38,9 @@ public class ElementValidator extends Node implements edu.jhu.apl.patterns_class
 		parent.HandleRequest(event);
 	}
 
-	//
-	// Serialization Data Extraction Strategy
-	//
-	public void serialize(java.io.Writer writer, edu.jhu.apl.patterns_class.XMLSerializer.WhitespaceStrategy whitespace)
-	  throws java.io.IOException
+	public void Accept(edu.jhu.apl.patterns_class.Visitor visitor) throws java.io.IOException
 	{
-		parent.serialize(writer, whitespace);
+		parent.Accept(visitor);
 	}
 
 	//
@@ -158,4 +171,84 @@ public class ElementValidator extends Node implements edu.jhu.apl.patterns_class
 	public boolean hasAttributes()							{ return parent.hasAttributes(); }
 	public boolean hasChildNodes()							{ return parent.hasChildNodes(); }
 	public String getLocalName()							{ return parent.getLocalName(); }
+
+	public static void main(String args[])
+	{
+		if (args.length < 1)
+		{
+			System.out.println("No output filenames provided.");
+			System.exit(0);
+		}
+
+		//
+		// Create tree of this document:
+		// <? xml version="1.0" encoding="UTF-8"?>
+		// <document>
+		//   <element attribute="attribute value"/>
+		//   <element/>
+		//   <element attribute="attribute value" attribute2="attribute2 value">
+		//     Element Value
+		//   </element>
+		//   <element>
+		//   </element>
+		// </document>
+		//
+		// Schema for this document:
+		// document contains:  element
+		// element contains:  element
+		// element contains attributes:  attribute, attribute2
+		//
+		edu.jhu.apl.patterns_class.XMLValidator	xmlValidator	= new edu.jhu.apl.patterns_class.XMLValidator();
+		edu.jhu.apl.patterns_class.ValidChildren	schemaElement	= xmlValidator.addSchemaElement(null);
+		schemaElement.addValidChild("document", false);
+		schemaElement	= xmlValidator.addSchemaElement("document");
+		schemaElement.addValidChild("element", false);
+		schemaElement	= xmlValidator.addSchemaElement("element");
+		schemaElement.addValidChild("element", false);
+		schemaElement.addValidChild("attribute", true);
+		schemaElement.addValidChild("attribute2", true);
+		schemaElement.setCanHaveText(true);
+
+		edu.jhu.apl.patterns_class.dom.replacement.Document	document	=
+		  new edu.jhu.apl.patterns_class.dom.DocumentValidator(new edu.jhu.apl.patterns_class.dom.Document(), xmlValidator);
+		edu.jhu.apl.patterns_class.dom.replacement.Element	root		= null;
+		edu.jhu.apl.patterns_class.dom.replacement.Element	child		= null;
+		edu.jhu.apl.patterns_class.dom.replacement.Attr		attr		= null;
+
+		root	= new edu.jhu.apl.patterns_class.dom.ElementValidator(document.createElement("document"), xmlValidator);
+		document.appendChild(root);
+		child	= new edu.jhu.apl.patterns_class.dom.ElementValidator(document.createElement("element"), xmlValidator);
+		attr	= document.createAttribute("attribute");
+		attr.setValue("attribute value");
+		child.setAttributeNode(attr);
+		root.appendChild(child);
+		child	= new edu.jhu.apl.patterns_class.dom.ElementValidator(document.createElement("element"), xmlValidator);
+		root.appendChild(child);
+		child	= new edu.jhu.apl.patterns_class.dom.ElementValidator(document.createElement("element"), xmlValidator);
+		child.setAttribute("attribute", "attribute value");
+		child.setAttribute("attribute2", "attribute2 value");
+		edu.jhu.apl.patterns_class.dom.replacement.Text text = document.createTextNode("Element Value");
+		child.appendChild(text);
+		root.appendChild(child);
+		child	= new edu.jhu.apl.patterns_class.dom.ElementValidator(document.createElement("element"), xmlValidator);
+		root.appendChild(child);
+
+		//
+		// Serialize
+		//
+		try
+		{
+			edu.jhu.apl.patterns_class.XMLSerializer	xmlSerializer	=
+			  new edu.jhu.apl.patterns_class.XMLSerializer(new java.io.BufferedWriter(new java.io.OutputStreamWriter(
+			  new java.io.FileOutputStream(new java.io.File(args[0])))));
+			xmlSerializer.serializePretty();
+			document.getDocumentElement().cloneNode(true).Accept(xmlSerializer);
+			xmlSerializer.close();
+		}
+		catch (java.io.IOException e)
+		{
+			System.out.println("Error writing file.");
+			e.printStackTrace();
+		}
+	}
 }

@@ -13,13 +13,17 @@ public class DocumentValidator extends Node implements edu.jhu.apl.patterns_clas
 		schemaElement	= xmlValidator.findSchemaElement(null);
 	}
 
-	//
-	// Serialization Data Extraction Strategy
-	//
-	public void serialize(java.io.Writer writer, edu.jhu.apl.patterns_class.XMLSerializer.WhitespaceStrategy whitespace)
-	  throws java.io.IOException
+	public void Accept(edu.jhu.apl.patterns_class.Visitor visitor) throws java.io.IOException
 	{
-		parent.serialize(writer, whitespace);
+		parent.Accept(visitor);
+	}
+
+	//
+	// Prototype Clone
+	//
+	public edu.jhu.apl.patterns_class.dom.replacement.Node cloneNode(boolean deep)
+	{
+		return parent.cloneNode(deep);
 	}
 
 	//
@@ -97,7 +101,6 @@ public class DocumentValidator extends Node implements edu.jhu.apl.patterns_clas
 	public edu.jhu.apl.patterns_class.dom.replacement.NodeList getElementsByTagNameNS(String namespaceURI, String localName)
 	  { return null; }
 	public edu.jhu.apl.patterns_class.dom.replacement.Element getElementById(String elementId) { return null; }
-	public edu.jhu.apl.patterns_class.dom.replacement.Node cloneNode(boolean deep) { return null; }
 	public edu.jhu.apl.patterns_class.dom.replacement.Node
 	  renameNode(edu.jhu.apl.patterns_class.dom.replacement.Node n, String namespaceURI, String qualifiedName) { return null; }
 	public void normalizeDocument() {}

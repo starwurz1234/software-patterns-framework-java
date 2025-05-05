@@ -7,6 +7,17 @@ public class ElementProxy implements edu.jhu.apl.patterns_class.dom.replacement.
 	private edu.jhu.apl.patterns_class.Director			director	= null;
 
 	//
+	// Prototype Clone
+	//
+	public edu.jhu.apl.patterns_class.dom.replacement.Node cloneNode(boolean deep)
+	{
+		ElementProxy	temp	=
+		  new ElementProxy((edu.jhu.apl.patterns_class.dom.replacement.Element )realSubject.cloneNode(deep), director);
+		temp.realize();
+		return temp;
+	}
+
+	//
 	// Chain of Responsibility
 	//
 	public void HandleRequest(String event)
@@ -62,10 +73,9 @@ public class ElementProxy implements edu.jhu.apl.patterns_class.dom.replacement.
 	//
 	// Passthrough Element members.
 	//
-	public void serialize(java.io.Writer writer, edu.jhu.apl.patterns_class.XMLSerializer.WhitespaceStrategy whitespace)
-	  throws java.io.IOException
+	public void Accept(edu.jhu.apl.patterns_class.Visitor visitor) throws java.io.IOException
 	{
-		realSubject.serialize(writer, whitespace);
+		realSubject.Accept(visitor);
 	}
 	public String getAttribute(String name)
 	{
@@ -172,7 +182,6 @@ public class ElementProxy implements edu.jhu.apl.patterns_class.dom.replacement.
 	public String getNamespaceURI()									{ return null; }
 	public String getPrefix()									{ return null; }
 	public void setPrefix(String prefix) throws org.w3c.dom.DOMException				{}
-	public edu.jhu.apl.patterns_class.dom.replacement.Node cloneNode(boolean deep)			{ return null; }
 	public Object getUserData(String key)								{ return null; }
 	public Object setUserData(String key, Object data, org.w3c.dom.UserDataHandler handler)		{ return null; }
 	public Object getFeature(String feature, String version)					{ return null; }

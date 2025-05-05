@@ -144,7 +144,8 @@ public class XMLValidator
 			XMLSerializer	xmlSerializer	=
 			  new XMLSerializer(new java.io.BufferedWriter(new java.io.OutputStreamWriter(
 			  new java.io.FileOutputStream(new java.io.File(args[0])))));
-			xmlSerializer.serializePretty(document);
+			xmlSerializer.serializePretty();
+			document.Accept(xmlSerializer);
 			xmlSerializer.close();
 		}
 		catch (java.io.IOException e)

@@ -2,11 +2,9 @@ package edu.jhu.apl.patterns_class.dom.replacement;
 
 public interface Attr extends Node
 {
-	//
-	// Serialization Data Extraction Strategy
-	//
-	public void serialize(java.io.Writer writer, edu.jhu.apl.patterns_class.XMLSerializer.WhitespaceStrategy whitespace)
-	  throws java.io.IOException;
+	public void Accept(edu.jhu.apl.patterns_class.Visitor visitor) throws java.io.IOException;
+
+	public Node cloneNode(boolean deep);	// Prototype Clone
 
 	//
 	// Implemented Attr members.
