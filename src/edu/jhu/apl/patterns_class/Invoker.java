@@ -5,15 +5,12 @@ package edu.jhu.apl.patterns_class;
 //
 public class Invoker
 {
-	private java.util.HashMap<String, Command>			commands	= new java.util.HashMap<String, Command>();
 	private boolean							running		= true;
 	private edu.jhu.apl.patterns_class.dom.replacement.Document	document	= null;
+	private ApplicationFacade facade;
 
-	public Invoker()	{}
-
-	public void	addCommand(String name, Command command)
-	{
-		commands.put(name, command);
+	public Invoker()	{
+		this.facade = new ApplicationFacade(this);
 	}
 
 	public void	run()
@@ -52,10 +49,14 @@ public class Invoker
 
 		if (parsedInput.length > 0)
 		{
-			Command		command		= commands.get(parsedInput[0]);
+			if (parsedInput[0].contains("read")) {
+				facade.Read(parsedInput.length > 1 ? parsedInput[1] : null);
+			} else if (parsedInput[0].contains("write")) {
+				facade.Write(parsedInput.length > 1 ? parsedInput[1] : null);
+			} else if (parsedInput[0].contains("print")) {
+				facade.Print(parsedInput.length > 1 ? parsedInput[1] : null);
+			}
 
-			if (command != null)
-				command.Execute(parsedInput.length > 1 ? parsedInput[1] : null);
 			else
 				running	= false;
 		}
@@ -66,11 +67,6 @@ public class Invoker
 	public static void main(String[] args)
 	{
 		Invoker	invoker	= new Invoker();
-
-		invoker.addCommand("read", new ParseCommand(invoker));
-		invoker.addCommand("write", new WriteCommand(invoker));
-		invoker.addCommand("print", new PrintCommand(invoker));
-
 		invoker.run();
 	}
 }
