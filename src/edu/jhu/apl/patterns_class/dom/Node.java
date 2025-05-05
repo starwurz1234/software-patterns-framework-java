@@ -1,5 +1,7 @@
 package edu.jhu.apl.patterns_class.dom;
 
+import edu.jhu.apl.patterns_class.OperationType;
+
 public class Node implements edu.jhu.apl.patterns_class.dom.replacement.Node
 {
 	private String		name		= null;
@@ -8,6 +10,7 @@ public class Node implements edu.jhu.apl.patterns_class.dom.replacement.Node
 	private Node		parent		= null;
 	private NodeList	nodes		= null;
 	protected edu.jhu.apl.patterns_class.dom.replacement.Document	document	= null;
+	protected int evaluatedValue = 0;
 
 	Node(String name, short type)
 	{
@@ -140,6 +143,35 @@ public class Node implements edu.jhu.apl.patterns_class.dom.replacement.Node
 	}
 	public boolean hasChildNodes()					{ return nodes.size() > 0; }
 	public String getLocalName()					{ return name; }
+
+	@Override
+	public int interpret(OperationType operation, int value) {
+
+		switch (operation) {
+			case Add:
+				this.evaluatedValue = value + this.evaluatedValue;
+				break;
+			case Divide:
+				this.evaluatedValue = value / this.evaluatedValue;
+				break;
+			case Multiply:
+				this.evaluatedValue = value * this.evaluatedValue;
+				break;
+			case Subtract:
+				this.evaluatedValue = value - this.evaluatedValue;
+				break;
+			default:
+				return this.evaluatedValue;
+				
+		}
+
+		return this.evaluatedValue;
+	}
+
+	@Override
+	public void setInterpretedValue(int value) {
+		this.evaluatedValue = value;
+	}
 
 	//
 	// Unimplemented Interface Members

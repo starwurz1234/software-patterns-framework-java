@@ -1,7 +1,13 @@
 package edu.jhu.apl.patterns_class.dom;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Document extends Node implements edu.jhu.apl.patterns_class.dom.replacement.Document
 {
+	private Map<String, Text> textObjectPool = new HashMap<String, Text>();
+	private Map<String, Attr> attrObjectPool = new HashMap<String, Attr>();
+
 	public Document()
 	{
 		super(null, org.w3c.dom.Node.DOCUMENT_NODE);
@@ -26,10 +32,25 @@ public class Document extends Node implements edu.jhu.apl.patterns_class.dom.rep
 	// Implemented Document members.
 	//
 	public edu.jhu.apl.patterns_class.dom.replacement.Element createElement(String tagName) throws org.w3c.dom.DOMException
-	  {return new Element(tagName,this);}
-	public edu.jhu.apl.patterns_class.dom.replacement.Text createTextNode(String data) { return new Text(data, this); }
+	{
+		return new Element(tagName, this);
+	}
+	public edu.jhu.apl.patterns_class.dom.replacement.Text createTextNode(String data) 
+	{
+		if (!textObjectPool.containsKey(data)) {
+			textObjectPool.put(data, new Text(data, this));
+		} 
+		
+		return textObjectPool.get(data);
+	}
 	public edu.jhu.apl.patterns_class.dom.replacement.Attr createAttribute(String name) throws org.w3c.dom.DOMException
-	  { return new Attr(name, this); }
+	{ 
+		if (!attrObjectPool.containsKey(name)) {
+			attrObjectPool.put(name, new Attr(name, this));
+		}
+
+		return attrObjectPool.get(name);
+	}
 	public edu.jhu.apl.patterns_class.dom.replacement.Element getDocumentElement()
 	{
 		for (java.util.ListIterator i = ((NodeList )getChildNodes()).listIterator(0); i.hasNext();)

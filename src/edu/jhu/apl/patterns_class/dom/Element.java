@@ -1,5 +1,7 @@
 package edu.jhu.apl.patterns_class.dom;
 
+import edu.jhu.apl.patterns_class.OperationType;
+
 public class Element extends Node implements edu.jhu.apl.patterns_class.dom.replacement.Element
 {
 	private NamedNodeMap		attributes	= null;
@@ -193,6 +195,60 @@ public class Element extends Node implements edu.jhu.apl.patterns_class.dom.repl
 		((Node )newAttr).setParent(this);
 		attributes.addLast(newAttr);
 		return oldAttribute;
+	}
+
+	@Override
+	public int interpret(OperationType operation, int value) {
+
+		OperationType newOperation = OperationType.Constant;
+
+		if (this.getNodeName().equals("operation") && this.getAttributes().getLength() > 0) {
+			Attr attr = (Attr)this.getAttributes().item(0);
+			switch (attr.getValue()) {
+				case "+":
+					newOperation = OperationType.Add;
+					break;
+				case "-":
+					newOperation = OperationType.Subtract;
+					break;
+				case "*":
+					newOperation = OperationType.Multiply;
+					break;
+				case "/":
+					newOperation = OperationType.Divide;
+					break;
+			}
+		}
+		if (this.getChildNodes().getLength() > 0) {
+			for (int i = 0; i < this.getChildNodes().getLength(); i++) {
+				edu.jhu.apl.patterns_class.dom.replacement.Node childNode = this.getChildNodes().item(i);
+
+				if (childNode instanceof Text) {
+					childNode.setInterpretedValue(Integer.parseInt(childNode.getNodeValue()));
+				}
+				this.evaluatedValue = childNode.interpret(newOperation, this.evaluatedValue);
+			}
+		}
+		
+		switch(operation) {
+			case Add:
+				this.evaluatedValue = value + this.evaluatedValue;
+				break;
+			case Divide:
+				this.evaluatedValue = value / this.evaluatedValue;
+				break;
+			case Multiply:
+				this.evaluatedValue = value * this.evaluatedValue;
+				break;
+			case Subtract:
+				this.evaluatedValue = value - this.evaluatedValue;
+				break;
+			default:
+				break;
+
+		}
+
+		return this.evaluatedValue;
 	}
 
 	//

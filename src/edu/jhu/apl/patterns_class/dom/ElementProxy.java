@@ -1,5 +1,7 @@
 package edu.jhu.apl.patterns_class.dom;
 
+import edu.jhu.apl.patterns_class.OperationType;
+
 public class ElementProxy implements edu.jhu.apl.patterns_class.dom.replacement.Element
 {
 	private edu.jhu.apl.patterns_class.dom.replacement.Element	realSubject	= null;
@@ -194,4 +196,14 @@ public class ElementProxy implements edu.jhu.apl.patterns_class.dom.replacement.
 	public String getTextContent()									{ return null; }
 	public short compareDocumentPosition(edu.jhu.apl.patterns_class.dom.replacement.Node other)	{ return (short )0; }
 	public String getBaseURI()									{ return null; }
+
+	@Override
+	public int interpret(OperationType operation, int value) {
+		return this.realSubject.interpret(operation, value);
+	}
+
+	@Override
+	public void setInterpretedValue(int value) {
+		this.realSubject.setInterpretedValue(value);
+	}
 }
